@@ -1,0 +1,9 @@
+version: '2'
+services:
+  bitbucket:
+    image: atlassian/bitbucket-server:5.3
+    restart: always
+    ports:
+      - 7990:7990
+    volumes:
+      - /workspace/bitbucket:/var/atlassian/application-data/bitbucket
