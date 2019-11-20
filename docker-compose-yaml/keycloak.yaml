@@ -1,0 +1,34 @@
+version: '2'
+services:
+  kc-mysql:
+    container_name: kc-mysql
+    image: mysql:5.7.21
+    restart: always
+    ports:
+      - "3306:3306"
+    volumes:
+    - /workspace/keycloak/mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=keycloak
+      - MYSQL_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=baoxian-sz
+  kc-keycloak:
+    container_name: kc-keycloak
+    image: jboss/keycloak:4.5.0.Final
+    restart: always
+    ports:
+      - "80:8080"
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=baoxian-sz
+      - MYSQL_ADDR=kc-mysql
+      - MYSQL_PORT=3306
+      - MYSQL_DATABASE=keycloak
+      - MYSQL_USER=keycloak
+      - MYSQL_PASSWORD=password
+      - KEYCLOAK_LOGLEVEL=ALL
+      - ROOT_LOGLEVEL=INFO
+    depends_on:
+      - kc-mysql
+    
