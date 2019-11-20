@@ -1,0 +1,29 @@
+ version: '2'
+ services:
+   wp-mysql:
+     container_name: wp-mysql
+     image: mysql:5.7
+     restart: always
+     ports:
+       - 3306:3306
+     volumes:
+       - /workspace/wordpress/mysql:/var/lib/mysql
+     environment:
+       MYSQL_ROOT_PASSWORD: "password"
+       MYSQL_DATABASE: "wp"
+
+   wp-wordpress:
+     container_name: wp-wordpress
+     image: wordpress:5-php7.1
+     restart: always
+     ports:
+       - 80:80
+     volumes:
+       - /workspace/wordpress/wp-content:/var/www/html/wp-content
+    environment:
+      WORDPRESS_DB_HOST: "wp-mysql"
+      WORDPRESS_DB_PASSWORD: "password"
+      WORDPRESS_DB_NAME: "wp"
+      WORDPRESS_TABLE_PREFIX: "wp_"
+    depends_on:
+      - wp-mysql
