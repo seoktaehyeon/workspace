@@ -1,0 +1,11 @@
+version: '2'
+services:
+  nextcloud:
+    container_name: nextcloud
+    image: nextcloud:stable
+    restart: always
+    ports:
+      - 80:80
+    volumes:
+      - /workspace/nextcloud/data:/var/www/html/data
+      - /workspace/nextcloud/config:/var/www/html/config
