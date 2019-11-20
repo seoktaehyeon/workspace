@@ -25,7 +25,7 @@ vim-cmd vmsvc/power.on $vm_id
 
 #### 查找VM ID
 ```bash
-vim-cmd vmsvc/getallvms | grep baoxian-sz-1
+vim-cmd vmsvc/getallvms | grep $vm_name
 ```
 
 #### 清理虚拟机
