@@ -1,10 +1,11 @@
 version: '2'
 services:
   jenkins:
+    container_name: jenkins
     image: jenkins/jenkins:lts
     restart: always
     ports:
       - 8080:8080
       - 50000:50000
     volumes:
-      - /workspace/jenkins_home:/var/jenkins_home
+      - /workspace/jenkins/jenkins_home:/var/jenkins_home
