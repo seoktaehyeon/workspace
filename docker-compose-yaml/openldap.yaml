@@ -1,0 +1,20 @@
+version: '2'
+services:
+  ldap-openldap:
+    container_name: ldap-openldap
+    image: dinkel/openldap
+    restart: always
+    ports:
+      - "389:389"
+    environment:
+      - SLAPD_PASSWORD=baoxian-sz
+      - SLAPD_DOMAIN=baoxian-sz.com
+    volumes:
+      - /workspace/ldap/db:/var/lib/ldap
+      - /workspace/ldap/config:/etc/ldap
+  ldap-phpldapadmin:
+    container_name: ldap-phpldapadmin
+    image: dinkel/phpldapadmin
+    restart: always
+    ports:
+      - "8080:80"
