@@ -1,10 +1,16 @@
 #!/bin/bash
-## Usage
-## ./cluster-exec-install.sh "192.168.1.1 192.168.1.2" "password"
-##
 
-IPS=${1?"Please provide ip list, e.g. '192.168.1.1 192.168.1.2'"}
-PASSWORD=${2?"Please provide cluster ssh password"}
+HELP_DOC="
+
+Usage:
+$0 <ip_list> <ssh_password>
+
+Example:
+$0 \"192.168.1.1 192.168.1.2\" \"password\"
+"
+
+IPS=${1?$(echo -e "\033[31;40;1m [ ERROR ] \033[0m") "Please provide ip list, e.g. '192.168.1.1 192.168.1.2' $HELP_DOC"}
+PASSWORD=${2?$(echo -e "\033[31;40;1m [ ERROR ] \033[0m") "Please provide cluster ssh password $HELP_DOC"}
 HOSTS="## Cluster Hosts Start"
 SSH_ROOT="/root/.ssh"
 
