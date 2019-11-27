@@ -15,5 +15,13 @@
 - [wordpress.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/wordpress.yaml)
 ## knowledge-base
 - [esx.md](https://github.com/seoktaehyeon/workspace/blob/master/knowledge-base/esx.md)
+  > *Preview*
+  > #### 列出所有正在运行的的VM
+  > ```bash
+  > esxcli vm process list
+  > ```
+  > 
+  > #### 列出所有的VM
+  > ```bash
 ## tools
 - [cluster-exec-install.sh](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/cluster-exec-install.sh)

@@ -18,11 +18,19 @@ do
             _file_type=$(echo "$_file" | awk -F '.' '{print $NF}')
             if [[ "$_file_type" == "md" ]]; then
                 _file_link="${_blob_link}/${_dir}/${_file}"
+                echo "${_file}: ${_file_link}"
+                echo "- [$_file](${_file_link})" >> README.md
+                echo '  > *Preview*' >> README.md
+                for i in `seq 1 7`
+                do
+                    _file_line=$(sed -n "${i}p" ${_dir}/${_file})
+                    echo "  > ${_file_line}" >> README.md
+                done
             else
                 _file_link="${_raw_link}/${_dir}/${_file}"
+                echo "${_file}: ${_file_link}"
+                echo "- [$_file](${_file_link})" >> README.md
             fi
-            echo "${_file}: ${_file_link}"
-            echo "- [$_file](${_file_link})" >> README.md
         done
     else
         echo "$_dir is not a dir, skip it"
