@@ -20,7 +20,6 @@ do
                 _file_link="${_blob_link}/${_dir}/${_file}"
                 echo "${_file}: ${_file_link}"
                 echo "- [$_file](${_file_link})" >> README.md
-                echo '  > *Preview*' >> README.md
                 for i in `seq 1 7`
                 do
                     _file_line=$(sed -n "${i}p" ${_dir}/${_file})

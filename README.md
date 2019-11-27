@@ -15,7 +15,6 @@
 - [wordpress.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/wordpress.yaml)
 ## knowledge-base
 - [esx.md](https://github.com/seoktaehyeon/workspace/blob/master/knowledge-base/esx.md)
-  > *Preview*
   > #### 列出所有正在运行的的VM
   > ```bash
   > esxcli vm process list
