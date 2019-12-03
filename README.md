@@ -24,3 +24,4 @@
   > ```bash
 ## tools
 - [cluster-exec-install.sh](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/cluster-exec-install.sh)
+- [docker-registry-tool.sh](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/docker-registry-tool.sh)
