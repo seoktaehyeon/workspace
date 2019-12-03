@@ -1,9 +1,9 @@
 #!/bin/bash
-
+# ./docker-registry-tool.sh http://127.0.0.1 admin:password
 #set -ex
 
-REGISTRY_HOST=${1?}
-REGISTRY_AUTH=${2?}
+REGISTRY_HOST=${1?"Please provide registry host url, e.g. http://127.0.0.1"}
+REGISTRY_AUTH=${2?"Please provide registry authorization, e.g. admin:password"}
 DEBUG=${3-""}
 
 CURL='curl -s'
@@ -14,7 +14,6 @@ BEARER_SERVICE=""
 BEARER_SCOPE=""
 REPOS=""
 TAGS=""
-
 
 function log_debug
 {
