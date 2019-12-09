@@ -39,6 +39,10 @@ function check_env
     do
         which $_cmd || log_fail "$_cmd not found"
     done
+    for ip in $IPS
+    do
+        ping -c 1 $ip || log_fail "$ip cannot be ping"
+    done
     log_pass "Checking complete"
     return 0
 }
