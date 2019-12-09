@@ -50,7 +50,7 @@ function check_env
 function generate_ssh_key
 {
     log_note "Generate id_rsa and id_rsa.pub"
-    [[ -f "${SSH_ROOT}/id_rsa" ]] && [[ -f "${SSH_ROOT}/id_rsa.pub ]] && {
+    [[ -f "${SSH_ROOT}/id_rsa" ]] && [[ -f "${SSH_ROOT}/id_rsa.pub" ]] && {
         log_pass "ssh key is already in this machine"
         return 0
     }
