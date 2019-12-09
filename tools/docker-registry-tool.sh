@@ -114,6 +114,7 @@ function get_tags
     log_debug "200 OK"
     tags_str=$(echo "${output}" | grep 'tags' | awk -F '[' '{print $2}' | awk -F ']' '{print $1}')
     TAGS=$(format_output "${tags_str}" | sed 's/"//g')
+    log_debug "Total: $(echo "${TAGS}" | wc -l)"
     echo "${TAGS}"
     return 0
 }
@@ -160,14 +161,14 @@ get_repositories
 for repo in ${REPOS}
 do
     get_tags ${repo}
-    tag_count=0
-    for tag in ${TAGS}
-    do
-        tag_count=$(( $tag_count + 1 ))
-        (( $tag_count < 6 )) && continue
-        echo "more than 5"
-        digest=$(get_digest "${repo}" "${tag}")
-        echo "Fake delete it" && continue
-        delete_tag "${digest}"
-    done
+#    tag_count=0
+#    for tag in ${TAGS}
+#    do
+#        tag_count=$(( $tag_count + 1 ))
+#        (( $tag_count < 6 )) && continue
+#        echo "more than 5"
+#        digest=$(get_digest "${repo}" "${tag}")
+#        echo "Fake delete it" && continue
+#        delete_tag "${digest}"
+#    done
 done
