@@ -1,4 +1,5 @@
 #!/bin/bash
+# Author: v.stone@163.com
 # ./docker-registry-cleanup.sh http://127.0.0.1 admin:password
 #set -ex
 
