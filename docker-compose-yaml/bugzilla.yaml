@@ -16,17 +16,14 @@ services:
     container_name: bugzilla-svc
     image: bxwill/linux-server:bugzilla
     restart: always
-    tty: true
     ports:
       - 80:80
       - 443:443
-    volumes:
-      - /workspace/bugzilla-svc:/var/www/html/bugzilla
     environment:
       BUGZILLA_ADMIN_EMAIL: "administrator@bugzilla.local"
       BUGZILLA_ADMIN_NAME: "administrator"
       BUGZILLA_ADMIN_PASS: "baoxian-sz"
-      BUGZILLA_DB_HOST: "bugs"
+      BUGZILLA_DB_HOST: "bugzilla-db"
       BUGZILLA_DB_NAME: "bugs"
       BUGZILLA_DB_USER: "bugs"
       BUGZILLA_DB_PASS: "bugs"
