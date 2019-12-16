@@ -1,0 +1,34 @@
+version: '2'
+services:
+  bugzilla-db:
+    container_name: bugzilla-db
+    image: postgres:10
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+       - /workspace/bugzilla-db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: "bugs"
+      POSTGRES_USER: "bugs"
+      POSTGRES_PASSWORD: "bugs"
+  bugzilla-svc:
+    container_name: bugzilla-svc
+    image: bxwill/linux-server:bugzilla
+    restart: always
+    tty: true
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - /workspace/bugzilla-svc:/var/www/html/bugzilla
+    environment:
+      BUGZILLA_ADMIN_EMAIL: "administrator@bugzilla.local"
+      BUGZILLA_ADMIN_NAME: "administrator"
+      BUGZILLA_ADMIN_PASS: "baoxian-sz"
+      BUGZILLA_DB_HOST: "bugs"
+      BUGZILLA_DB_NAME: "bugs"
+      BUGZILLA_DB_USER: "bugs"
+      BUGZILLA_DB_PASS: "bugs"
+    depends_on:
+      - bugzilla-db
