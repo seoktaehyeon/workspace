@@ -3,6 +3,7 @@
 > *Please contact v.stone@163.com if there is any mistake*
 ## docker-compose-yaml
 - [bitbucket.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/bitbucket.yaml)
+- [bugzilla.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/bugzilla.yaml)
 - [gitlab.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/gitlab.yaml)
 - [grafana.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/grafana.yaml)
 - [jenkins.yaml](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/docker-compose-yaml/jenkins.yaml)
