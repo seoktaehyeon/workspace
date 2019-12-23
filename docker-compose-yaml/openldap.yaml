@@ -10,8 +10,8 @@ services:
       - SLAPD_PASSWORD=baoxian-sz
       - SLAPD_DOMAIN=baoxian-sz.com
     volumes:
-      - /workspace/ldap/db:/var/lib/ldap
-      - /workspace/ldap/config:/etc/ldap
+      - ./ldap/db:/var/lib/ldap
+      - ./ldap/config:/etc/ldap
   ldap-phpldapadmin:
     container_name: ldap-phpldapadmin
     image: dinkel/phpldapadmin

@@ -7,5 +7,5 @@ services:
     ports:
       - 80:80
     volumes:
-      - /workspace/nextcloud/data:/var/www/html/data
-      - /workspace/nextcloud/config:/var/www/html/config
+      - ./nextcloud/data:/var/www/html/data
+      - ./nextcloud/config:/var/www/html/config

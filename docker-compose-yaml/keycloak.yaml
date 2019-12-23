@@ -7,7 +7,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-    - /workspace/keycloak/mysql:/var/lib/mysql
+    - ./keycloak/mysql:/var/lib/mysql
     environment:
       - MYSQL_DATABASE=keycloak
       - MYSQL_USER=keycloak

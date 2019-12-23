@@ -7,7 +7,7 @@
      ports:
        - 3306:3306
      volumes:
-       - /workspace/wordpress/mysql:/var/lib/mysql
+       - ./wordpress/mysql:/var/lib/mysql
      environment:
        MYSQL_ROOT_PASSWORD: "password"
        MYSQL_DATABASE: "wp"
@@ -19,7 +19,7 @@
      ports:
        - 80:80
      volumes:
-       - /workspace/wordpress/wp-content:/var/www/html/wp-content
+       - ./wordpress/wp-content:/var/www/html/wp-content
     environment:
       WORDPRESS_DB_HOST: "wp-mysql"
       WORDPRESS_DB_PASSWORD: "password"

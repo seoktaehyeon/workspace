@@ -6,4 +6,4 @@ services:
     ports:
       - 7990:7990
     volumes:
-      - /workspace/bitbucket:/var/atlassian/application-data/bitbucket
+      - ./bitbucket:/var/atlassian/application-data/bitbucket
