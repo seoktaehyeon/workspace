@@ -24,8 +24,8 @@ do
                 echo "${_file}:"
                 echo "${_file_link_github}"
                 echo "${_file_link_gitee}"
-                echo "- **${_file}**" >> README.md
-                echo "  - *[[ GitHub ]](${_file_link_github})  [[ Gitee ]](${_file_link_gitee})*" >> README.md
+                echo "#### ${_file}" >> README.md
+                echo "- *[[ GitHub ]](${_file_link_github})  [[ Gitee ]](${_file_link_gitee})*" >> README.md
                 for i in `seq 1 7`
                 do
                     _file_line=$(sed -n "${i}p" ${_dir}/${_file})
@@ -37,8 +37,8 @@ do
                 echo "${_file}:"
                 echo "${_file_link_github}"
                 echo "${_file_link_gitee}"
-                echo "- **${_file}**" >> README.md
-                echo "  - *Raw Link:  [[ GitHub ]](${_file_link_github})  [[ Gitee ]](${_file_link_gitee})*" >> README.md
+                echo "#### ${_file}" >> README.md
+                echo "- *Raw Link:  [[ GitHub ]](${_file_link_github})  [[ Gitee ]](${_file_link_gitee})*" >> README.md
             fi
         done
     else
