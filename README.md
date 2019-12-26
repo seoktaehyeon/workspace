@@ -39,5 +39,7 @@
 ## tools
 #### cluster-exec-install.sh
 - *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/cluster-exec-install.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/cluster-exec-install.sh)*
+#### config-vm-host.sh
+- *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/config-vm-host.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/config-vm-host.sh)*
 #### docker-registry-cleanup.sh
 - *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/docker-registry-cleanup.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/docker-registry-cleanup.sh)*
