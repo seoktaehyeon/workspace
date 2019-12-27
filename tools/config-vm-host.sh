@@ -4,21 +4,45 @@
 # ./config-vm-host.sh 192.168.22.33
 
 _OS=''
-cat /etc/*release | grep -q CentOS && _OS='centos'
-cat /etc/*release | grep -q Ubuntu && _OS='ubuntu'
+_OS_RELEASE=$(cat /etc/*release)
+echo "${_OS_RELEASE}" | grep -q CentOS && _OS='centos'
+echo "${_OS_RELEASE}" | grep -q Ubuntu && _OS='ubuntu'
 [[ "${_OS}" == "" ]] && {
     echo "Unknown OS"
-    cat /etc/*release
+    echo "${_OS_RELEASE}"
     exit 1
 }
-_IP=${1?}
-_NETMASK=${2-"255.255.0.0"}
+
+while true
+do
+    read -p "Host IP [No default]: " _READ_IP
+    [[ -z "${_READ_IP}" ]] || {
+        _IP="${_READ_IP}"
+        break
+    }
+done
+
+_DEFAULT_NETMASK="255.255.0.0"
+read -p "Netmask [${_DEFAULT_NETMASK}]: " _READ_NETMASK
+[[ -z "${_READ_NETMASK}" ]] && _NETMASK="${_DEFAULT_NETMASK}"
+
 _DEFAULT_GATEWAY=$(echo ${_IP} | awk -F '.' '{print $1"."$2".0.1"}')
-_GATEWAY=${3-"${_DEFAULT_GATEWAY}"}
-_DNS1=${4-"192.168.1.1"}
-_DNS2=${5-"223.5.5.5"}
-_HOSTNAME=${6-""}
-ping -c 4 ${_IP}
+read -p "Gateway [${_DEFAULT_GATEWAY}]: " _READ_GATEWAY
+[[ -z "${_READ_GATEWAY}" ]] && _GATEWAY="${_DEFAULT_GATEWAY}"
+
+_DEFAULT_DNS1="192.168.1.1"
+read -p "DNS 1   [${_DEFAULT_DNS1}]: " _READ_DNS1
+[[ -z "${_READ_DNS1}" ]] && _DNS1="${_DEFAULT_DNS1}"
+
+_DEFAULT_DNS2="223.5.5.5"
+read -p "DNS 2   [${_DEFAULT_DNS2}]: " _READ_DNS2
+[[ -z "${_READ_DNS2}" ]] && _DNS2="${_DEFAULT_DNS2}"
+
+_DEFAULT_HOSTNAME="${HOSTNAME}"
+read -p "Hostname[${_DEFAULT_HOSTNAME}]: " _READ_HOSTNAME
+[[ -z "${_READ_HOSTNAME}" ]] && _HOSTNAME="${_DEFAULT_HOSTNAME}"
+
+ping -c 2 ${_IP}
 (( $? == 0 )) && {
     echo "${_IP} has been used, need change another one"
     exit 1
