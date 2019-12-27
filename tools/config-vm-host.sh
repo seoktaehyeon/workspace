@@ -24,23 +24,43 @@ done
 
 _DEFAULT_NETMASK="255.255.0.0"
 read -p "Netmask [${_DEFAULT_NETMASK}]: " _READ_NETMASK
-[[ -z "${_READ_NETMASK}" ]] && _NETMASK="${_DEFAULT_NETMASK}"
+if [[ -z "${_READ_NETMASK}" ]]; then
+    _NETMASK="${_DEFAULT_NETMASK}"
+else
+    _NETMASK="${_READ_NETMASK}"
+fi
 
 _DEFAULT_GATEWAY=$(echo ${_IP} | awk -F '.' '{print $1"."$2".0.1"}')
 read -p "Gateway [${_DEFAULT_GATEWAY}]: " _READ_GATEWAY
-[[ -z "${_READ_GATEWAY}" ]] && _GATEWAY="${_DEFAULT_GATEWAY}"
+if [[ -z "${_READ_GATEWAY}" ]]; then
+    _GATEWAY="${_DEFAULT_GATEWAY}"
+else
+    _GATEWAY="${_READ_GATEWAY}"
+fi
 
 _DEFAULT_DNS1="192.168.1.1"
 read -p "DNS 1   [${_DEFAULT_DNS1}]: " _READ_DNS1
-[[ -z "${_READ_DNS1}" ]] && _DNS1="${_DEFAULT_DNS1}"
+if [[ -z "${_READ_DNS1}" ]]; then
+    _DNS1="${_DEFAULT_DNS1}"
+else
+    _DNS1="${_READ_DNS1}"
+fi
 
 _DEFAULT_DNS2="223.5.5.5"
 read -p "DNS 2   [${_DEFAULT_DNS2}]: " _READ_DNS2
-[[ -z "${_READ_DNS2}" ]] && _DNS2="${_DEFAULT_DNS2}"
+if [[ -z "${_READ_DNS2}" ]]; then
+    _DNS2="${_DEFAULT_DNS2}"
+else
+    _DNS2="${_DEFAULT_DNS2}"
+fi
 
 _DEFAULT_HOSTNAME="${HOSTNAME}"
 read -p "Hostname[${_DEFAULT_HOSTNAME}]: " _READ_HOSTNAME
-[[ -z "${_READ_HOSTNAME}" ]] && _HOSTNAME="${_DEFAULT_HOSTNAME}"
+if [[ -z "${_READ_HOSTNAME}" ]]; then
+    _HOSTNAME="${_DEFAULT_HOSTNAME}"
+else
+    _HOSTNAME="${_READ_HOSTNAME}"
+fi
 
 ping -c 2 ${_IP}
 (( $? == 0 )) && {
