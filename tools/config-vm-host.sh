@@ -142,7 +142,7 @@ echo "${_OS}" | grep -qE 'ubuntu' && {
 
 echo "== Modify hostname =="
 [[ "${_HOSTNAME}" == "" ]] || {
-    echo "${HOSTNAME}" > /etc/hostname
+    echo "${_HOSTNAME}" > /etc/hostname
 }
 
 echo "== Disable SeLinux =="
