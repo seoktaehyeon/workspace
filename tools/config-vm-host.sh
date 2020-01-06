@@ -177,6 +177,9 @@ echo "${_OS}" | grep -qE 'ubuntu' && {
     systemctl disable ufw
 }
 
+echo "== Set Time Zone =="
+which timedatectl && timedatectl set-timezone Asia/Shanghai
+
 echo "== Reboot VM =="
 echo "Reboot after 5 seconds"
 sleep 5
