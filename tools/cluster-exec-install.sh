@@ -36,8 +36,11 @@ function log_fail
 function check_env
 {
     log_note "Start to check env"
-    for _cmd in ssh expect ssh-keygen ssh-copy-id 
+    which yum && PKG_INSTALL="yum install -y "
+    which apt && PKG_INSTALL="apt install -y "
+    for _cmd in ssh expect ssh-keygen ssh-copy-id
     do
+        which $_cmd || ${PKG_INSTALL} ${_cmd}
         which $_cmd || log_fail "$_cmd not found"
     done
     for ip in $IPS
