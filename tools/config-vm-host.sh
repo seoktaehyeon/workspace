@@ -1,7 +1,6 @@
 #!/bin/bash
 # Author: v.stone@163.com
 # Config hostname, network, selinux, iptable
-# ./config-vm-host.sh 192.168.22.33
 
 _OS=''
 _OS_RELEASE=$(cat /etc/*release)

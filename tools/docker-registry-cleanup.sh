@@ -1,40 +1,47 @@
 #!/bin/bash
 # Author: v.stone@163.com
-# ./docker-registry-cleanup.sh http://127.0.0.1 admin:password
 #set -ex
 
-REGISTRY_HOST=${1?"Please provide registry host url, e.g. http://127.0.0.1"}
-REGISTRY_AUTH=${2?"Please provide registry authorization, e.g. admin:password"}
-TAG_POLICY=${3-"count=5"}
-DEBUG=${4-""}
-TEMP_FILE='.gc-registry.tmp'
-
+REGISTRY_HOST=""
+REGISTRY_AUTH=""
+TAG_POLICY=""
+TAG_TIME=""
+DEBUG=""
+TEMP_FILE='.docker-registry.tmp'
 OS_TYPE=$(uname)
-
-if [[ -n $(echo "${TAG_POLICY}" | grep -i 'count=') ]]; then
-    TAG_COUNT=$(echo "${TAG_POLICY}" | awk -F '=' '{print $2}')
-elif [[ -n $(echo "${TAG_POLICY}" | grep -i 'days=') ]]; then
-    TAG_DAYS=$(echo "${TAG_POLICY}" | awk -F '=' '{print $2}')
-    if [[ "${OS_TYPE}" == "Linux" ]]; then
-        TAG_TIME=$(date -d "-${TAG_DAYS}days" +%Y-%m-%d-%H-%M)
-    elif [[ "${OS_TYPE}" == "Darwin" ]]; then
-        TAG_TIME=$(date -v -${TAG_DAYS}d +%Y-%m-%d-%H-%M)
-    else
-        echo "OS is not support"
-        exit 1
-    fi
-else
-    echo "Please provide tag policy, e.g. count=5 or days=7"
-    exit 1
-fi
-
 CURL='curl -s'
-echo "${REGISTRY_HOST}" | grep -q 'https://' && CURL='curl -s -k'
+
+function check_opts_and_args
+{
+    # Check Registry Host
+    echo "${REGISTRY_HOST}" | grep -Eq 'http://|https://' || help_doc
+    echo "${REGISTRY_HOST}" | grep -q 'https://' && CURL="${CURL} -k"
+    # Check Registry Auth
+    echo "${REGISTRY_AUTH}" | grep -q ':' || help_doc
+    # Check Tag Policy
+    [[ -z "${TAG_POLICY}" ]] && TAG_POLICY="count=5"
+    if [[ -n $(echo "${TAG_POLICY}" | grep -i 'count=') ]]; then
+        TAG_COUNT=$(echo "${TAG_POLICY}" | awk -F '=' '{print $2}')
+    elif [[ -n $(echo "${TAG_POLICY}" | grep -i 'days=') ]]; then
+        TAG_DAYS=$(echo "${TAG_POLICY}" | awk -F '=' '{print $2}')
+        if [[ "${OS_TYPE}" == "Linux" ]]; then
+            TAG_TIME=$(date -d "-${TAG_DAYS}days" +%Y-%m-%d-%H-%M)
+        elif [[ "${OS_TYPE}" == "Darwin" ]]; then
+            TAG_TIME=$(date -v -${TAG_DAYS}d +%Y-%m-%d-%H-%M)
+        else
+            echo "OS is not support"
+            exit 1
+        fi
+    else
+        help_doc
+    fi
+    return 0
+}
 
 function log_debug
 {
     if [[ "${DEBUG}" == "debug" ]]; then
-        echo -e "$@" 1>&2
+        echo -e "\033[34;40;1m [ DEBUG ] \033[0m $@" 1>&2
     fi
     return 0
 }
@@ -43,6 +50,12 @@ function log_note
 {
     echo -e "$@" 1>&2
     return 0
+}
+
+function log_error
+{
+    echo -e "\033[31;40;1m [ ERROR ] \033[0m $@" 1>&2
+    exit 1
 }
 
 # Usage: format_output <output>
@@ -67,11 +80,8 @@ function _get_token_url
     url=${1?}
     method=${2-'GET'}
     log_debug "${CURL} -X ${method} --head ${url}"
-    output=$(${CURL} -X ${method} --head "${url}")
-    echo "${output}" | head -1 | grep -q '401' || {
-        echo "${output}"
-        exit 1
-    }
+    output=$(${CURL} -X ${method} --head "${url}" --connect-timeout 3)
+    echo "${output}" | head -1 | grep -q '401' || log_error "${output}"
     bearer=$(echo "${output}" | grep -i 'www-authenticate' | grep -i 'bearer' | awk '{print $NF}')
     bearer_realm=$(format_output "${bearer}" | grep 'realm=' | awk -F '"' '{print $2}')
     bearer_service=$(format_output "${bearer}" | grep 'service=' | awk -F '"' '{print $2}')
@@ -79,8 +89,9 @@ function _get_token_url
     log_debug "REALM: ${bearer_realm}"
     log_debug "SERVICE: ${bearer_service}"
     log_debug "SCOPE: ${bearer_scope}"
-    echo "${bearer_realm}?service=${bearer_service}&scope=${bearer_scope}"
-    log_debug "Succeed to get bearer info"
+    tk_url="${bearer_realm}?service=${bearer_service}&scope=${bearer_scope}"
+    echo "${tk_url}"
+    log_debug "Succeed to get bearer info: ${tk_url}"
     return 0
 }
 
@@ -91,22 +102,16 @@ function _get_token
     url=${1?}
     method=${2-'GET'}
     token_url=$(_get_token_url "${url}" "${method}")
-    log_debug "${CURL} -X -u '${REGISTRY_AUTH}' '${token_url}'"
-    output=$(${CURL} -u ${REGISTRY_AUTH} "${token_url}")
-    echo "${output}" | grep -q 'token' || {
-        echo "${output}"
-        exit 1
-    }
+    log_debug "${CURL} -X ${method} -u '${REGISTRY_AUTH}' '${token_url}'"
+    output=$(${CURL} -X ${method} -u ${REGISTRY_AUTH} "${token_url}" --connect-timeout 3)
+    echo "${output}" | grep -q 'token' || log_error "${output}"
+    log_debug "${output}"
     log_debug "200 OK"
     auth_token=$(echo ${output} | grep 'token' | awk -F '"' '{print $4}')
-    if [[ "${auth_token}" == "" ]]; then
-        echo "Cannot Get Authorization Token"
-        exit 1
-    else
-        log_debug "Succeed to get authorization token"
-        echo "${auth_token}"
-        return 0
-    fi
+    [[ -z "${auth_token}" ]] && log_error "Cannot Get Authorization Token"
+    log_debug "Succeed to get authorization token"
+    echo "${auth_token}"
+    return 0
 }
 
 # Usage: get_repositories
@@ -118,10 +123,7 @@ function get_repositories
     token=$(_get_token "${url}")
     log_debug "${CURL} -H 'Authorization: Bearer ${token}' ${url}"
     output=$(${CURL} -H "Authorization: Bearer ${token}" "${url}")
-    echo "${output}" | grep -q 'repositories' || {
-        echo "${output}"
-        exit 1
-    }
+    echo "${output}" | grep -q 'repositories' || log_error "${output}"
     log_note "200 OK"
     repo_str=$(echo "${output}" | grep 'repositories' | awk -F '[' '{print $2}' | awk -F ']' '{print $1}')
     repos=$(format_output "${repo_str}" | sed 's/"//g')
@@ -140,10 +142,7 @@ function get_tags
     token=$(_get_token "${url}")
     log_debug "${CURL} -H 'Authorization: Bearer ${token}' ${url}"
     output=$(${CURL} -H "Authorization: Bearer ${token}" "${url}")
-    echo "${output}" | grep -q 'tags' || {
-        echo "${output}"
-        exit 1
-    }
+    echo "${output}" | grep -q 'tags' || log_error "${output}"
     log_note "200 OK"
     tags_str=$(echo "${output}" | grep 'tags' | awk -F '[' '{print $2}' | awk -F ']' '{print $1}')
     tags=$(format_output "${tags_str}" | sed 's/"//g')
@@ -164,10 +163,7 @@ function get_digest
     token=$(_get_token "${url}")
     log_debug "${CURL} --head -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' -H 'Authorization: Bearer ${token}' '${url}'"
     output=$(${CURL} --head -H 'Accept: application/vnd.docker.distribution.manifest.v2+json' -H "Authorization: Bearer ${token}" "${url}" 2>&1)
-    echo "${output}" | grep -qi 'docker-content-digest' || {
-        echo "${output}"
-        exit 1
-    }
+    echo "${output}" | grep -qi 'docker-content-digest' || log_error "${output}"
     log_note "200 OK"
     digest=$(echo "${output}" | grep -i 'docker-content-digest' | awk '{print $NF}' | awk -F '\r' '{print $1}')
     log_debug "DIGEST: ${digest}"
@@ -187,10 +183,7 @@ function get_created_time
     token=$(_get_token "${url}")
     log_debug "${CURL} -H 'Authorization: Bearer ${token}' '${url}'"
     output=$(${CURL} -H "Authorization: Bearer ${token}" "${url}" 2>&1)
-    echo "${output}" | grep -qi '"history"' || {
-        echo "${output}"
-        exit 1
-    }
+    echo "${output}" | grep -qi '"history"' || log_error "${output}"
     log_note "200 OK"
     created_time_str=$(echo "${output}" | grep -i '"history"' -A 2 | tail -1 | sed 's/.*created//' | awk -F '[".]' '{print $3}')
     if [[ "${OS_TYPE}" == "Linux" ]]; then
@@ -210,19 +203,57 @@ function delete_digest
 {
     url="${REGISTRY_HOST}/v2/${1}/manifests/${2}"
     log_note "\nDelete Digest: ${url}"
-    token=$(_get_token "${url}" "DELETE")
+    token=$(_get_token "${url}")
     log_debug "${CURL} -X DELETE -H 'Authorization: Bearer ${token}' '${url}'"
     output=$(${CURL} -X DELETE -H "Authorization: Bearer ${token}" "${url}")
-    [[ -z "${output}" ]] && {
-        log_note "202 DELETED"
-        return 0
-    }
-    echo "${output}"
+    [[ -z "${output}" ]] || log_error "${output}"
+    log_note "202 DELETED"
+    return 0
+}
+
+function help_doc
+{
+    cat <<EOF
+Usage: $0 <options> <arguments>
+    -h     Registry Host: e.g. "http://127.0.0.1"
+    -a     Registry Authorization: e.g. "admin:password"
+    -p     Tag Policy:
+           e.g.
+               count=5 -- Default. Cleanup the digest and keep 5
+               days=7  -- Cleanup the digest if it is generated 7 days ago
+    -d     Enable debug mode
+Example:
+    $0 -h "http://127.0.0.1" -a "admin:password"
+    $0 -h "http://127.0.0.1" -a "admin:password" -p "count=5" -d
+    $0 -h "http://127.0.0.1" -a "admin:password" -p "days=7"
+EOF
     exit 1
 }
 
-
 ## Main
+#### Define and check OPT and OPTARG
+while getopts ':h:a:p:d' OPT
+do
+    case ${OPT} in
+        h)
+            REGISTRY_HOST="${OPTARG}"
+            ;;
+        a)
+            REGISTRY_AUTH="${OPTARG}"
+            ;;
+        p)
+            TAG_POLICY="${OPTARG}"
+            ;;
+        d)
+            DEBUG="debug"
+            ;;
+        *)
+            help_doc
+            ;;
+    esac
+done
+check_opts_and_args
+#### Cleanup Repo
 for repo in $(get_repositories)
 do
     # Recreate temp file
