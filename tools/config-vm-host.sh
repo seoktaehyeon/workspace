@@ -14,7 +14,7 @@ echo "${_OS_RELEASE}" | grep -q Ubuntu && _OS='ubuntu'
 
 while true
 do
-    read -p "Host IP [No default]: " _READ_IP
+    read -p "Host IP [No Default]: " _READ_IP
     [[ -z "${_READ_IP}" ]] || {
         _IP="${_READ_IP}"
         break
@@ -37,7 +37,7 @@ else
     _GATEWAY="${_READ_GATEWAY}"
 fi
 
-_DEFAULT_DNS1="192.168.1.1"
+_DEFAULT_DNS1="223.5.5.5"
 read -p "DNS 1   [${_DEFAULT_DNS1}]: " _READ_DNS1
 if [[ -z "${_READ_DNS1}" ]]; then
     _DNS1="${_DEFAULT_DNS1}"
@@ -45,13 +45,14 @@ else
     _DNS1="${_READ_DNS1}"
 fi
 
-_DEFAULT_DNS2="223.5.5.5"
-read -p "DNS 2   [${_DEFAULT_DNS2}]: " _READ_DNS2
-if [[ -z "${_READ_DNS2}" ]]; then
-    _DNS2="${_DEFAULT_DNS2}"
-else
-    _DNS2="${_DEFAULT_DNS2}"
-fi
+#_DEFAULT_DNS2=""
+read -p "DNS 2   [No Default]: " _READ_DNS2
+#if [[ -z "${_READ_DNS2}" ]]; then
+#    _DNS2="${_DEFAULT_DNS2}"
+#else
+#    _DNS2="${_DEFAULT_DNS2}"
+#fi
+_DNS2="${_READ_DNS2}"
 
 _DEFAULT_HOSTNAME="${HOSTNAME}"
 read -p "Hostname[${_DEFAULT_HOSTNAME}]: " _READ_HOSTNAME
@@ -68,7 +69,7 @@ ping -c 2 ${_IP}
 }
 
 echo "== Config network =="
-echo "${_OS}" | grep -qE 'centos' && {
+if [[ "${_OS}" == "centos" ]]; then
     _IFCFG="/etc/sysconfig/network-scripts/$(ls /etc/sysconfig/network-scripts/ | grep 'ifcfg-' | grep -v 'ifcfg-lo')"
 
     echo ">> Enable ONBOOT"
@@ -109,15 +110,16 @@ echo "${_OS}" | grep -qE 'centos' && {
         echo "DNS1=${_DNS1}" >> ${_IFCFG}
     fi
 
-    echo ">> Config dns2"
-    grep -q 'DNS2=' ${_IFCFG}
-    if (( $? == 0 )); then
-        sed -i "s/DNS2=.*/DNS2=${_DNS2}/" ${_IFCFG}
-    else
-        echo "DNS2=${_DNS2}" >> ${_IFCFG}
-    fi
-}
-echo "${_OS}" | grep -qE 'ubuntu' && {
+    [[ -z "${_DNS2}" ]] || {
+        echo ">> Config dns2"
+        grep -q 'DNS2=' ${_IFCFG}
+        if (( $? == 0 )); then
+            sed -i "s/DNS2=.*/DNS2=${_DNS2}/" ${_IFCFG}
+        else
+            echo "DNS2=${_DNS2}" >> ${_IFCFG}
+        fi
+    }
+elif [[ "${_OS}" == "ubuntu" ]]; then
     _IFCFG="/etc/network/interfaces"
 
 #    echo ">> Enable ONBOOT"
@@ -157,7 +159,7 @@ echo "${_OS}" | grep -qE 'ubuntu' && {
     else
         echo "dns-servers ${_DNS1} ${_DNS2}" >> ${_IFCFG}
     fi
-}
+fi
 
 echo "== Modify hostname =="
 echo "${_HOSTNAME}" > /etc/hostname
@@ -167,14 +169,13 @@ which getenforce && setenforce 0
 [[ -f "/etc/selinux/config" ]] && sed -i 's/^SELINUX=.*/SELINUX=disable/' /etc/selinux/config 
 
 echo "== Disable Firewall =="
-echo "${_OS}" | grep -qE 'centos' && { 
+if [[ "${_OS}" == "centos" ]]; then
     systemctl stop firewalld
     systemctl disable firewalld
-}
-echo "${_OS}" | grep -qE 'ubuntu' && { 
-    systemctl stop ufw 
+elif [[ "${_OS}" == "ubuntu" ]]; then
+    systemctl stop ufw
     systemctl disable ufw
-}
+fi
 
 echo "== Set Time Zone =="
 which timedatectl && timedatectl set-timezone Asia/Shanghai
