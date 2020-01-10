@@ -86,7 +86,7 @@ function generate_ssh_key
         return 0
     }
     ssh-keygen -t rsa -N '' -f ${SSH_ROOT}/id_rsa || log_error "Generation failure"
-    log_error "Generation complete"
+    log_succeed "Generation complete"
     return 0
 }
 
