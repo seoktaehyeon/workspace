@@ -21,23 +21,30 @@ function log_error
 
 function install_docker
 {
+    log_note "Start to check docker"
     which docker || {
+        log_note "No found docker, install it"
         curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     }
     systemctl restart docker
     systemctl enable docker
+    log_succeed "Docker installation complete"
     return 0
 }
 
 function config_env
 {
+    log_note "Start to check env"
     swapoff -a
     echo 1 > /proc/sys/net/bridge/bridge-nf-call-iptables
     which cluster-exec || log_error "Not found cluster-exec"
+    log_succeed "Env checking complete"
+    return 0
 }
 
 function install_kube
 {
+    log_note "Start to install kube"
     which yum && {
         cat <<EOF > /etc/yum.repos.d/kubernetes.repo
 [kubernetes]
@@ -63,6 +70,7 @@ EOF
     }
     systemctl restart kubelet
     systemctl enable kubelet
+    log_succeed "Kubelet installation complete"
     return 0
 }
 
@@ -75,6 +83,7 @@ function get_master_node
 
 function config_kube_master
 {
+    log_note "Start to config kube master"
     docker info | grep -i 'cgroup driver' | grep -i 'systemd' && log_error 'Dont know how to do'
 
     for kube_yaml in kube-controller-manager kube-apiserver kube-scheduler etcd
@@ -97,6 +106,7 @@ function config_kube_master
 
 function config_kube_slave
 {
+    log_note "Start to config kube slave"
     master_node=$(grep '## Cluster Hosts Start' /etc/hosts -A 1 | tail -1 | awk '{print $1}')
     [[ -z "${master_node}" ]] && log_error "Failed to get master node IP"
     kube_join_cmd=$(kubeadm token create --print-join-command | grep 'kubeadm join')
@@ -105,8 +115,21 @@ function config_kube_slave
     cluster-exec "ifconfig | grep \"${master_node}\" || chmod +x /tmp/k8s-install.sh && /tmp/k8s-install.sh prepare"
     cluster-exec "ifconfig | grep \"${master_node}\" || ${kube_join_cmd}"
     log_succeed "Kube slave configuration complete"
-    kubectl get node || log_error "Failed to get node"
     return 0
+}
+
+function wait_node_ready
+{
+    log_note "Check node status after 5 seconds"
+    sleep 5
+    for i in `seq 1 120`
+    do
+        node_status=$(kubectl get node || log_error "Failed to get node")
+        echo "${node_status}"
+        echo "${node_status}" | grep -q 'NotReady' || break
+        sleep 1
+    done
+    log_succeed "Installation complete"
 }
 
 # Main
@@ -117,5 +140,5 @@ install_kube
 [[ "${node_type}" != "prepare" ]] && {
     config_kube_master
     config_kube_slave
+    wait_node_ready
 }
-
