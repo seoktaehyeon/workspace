@@ -75,7 +75,7 @@ function get_master_node
 
 function config_kube_master
 {
-    docker info | grep -i 'cgroup driver' | grep -i 'systemd' || log_error 'Dont know how to do'
+    docker info | grep -i 'cgroup driver' | grep -i 'systemd' && log_error 'Dont know how to do'
 
     for kube_yaml in kube-controller-manager kube-apiserver kube-scheduler etcd
     do
