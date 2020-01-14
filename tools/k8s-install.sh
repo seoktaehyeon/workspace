@@ -120,16 +120,18 @@ function config_kube_slave
 
 function wait_node_ready
 {
-    log_note "Check node status after 5 seconds"
-    sleep 5
-    for i in `seq 1 120`
+    for i in `seq 1 60`
     do
+        log_note "[${i}/60] Check node status after 10 seconds"
+        sleep 10
         node_status=$(kubectl get node || log_error "Failed to get node")
         echo "${node_status}"
-        echo "${node_status}" | grep -q 'NotReady' || break
-        sleep 1
+        echo "${node_status}" | grep -q 'NotReady' || {
+            log_succeed "Installation complete"
+            return 0
+        }
     done
-    log_succeed "Installation complete"
+    log_error "There has node status is NotReady"
 }
 
 # Main
