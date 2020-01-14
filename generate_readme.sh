@@ -11,6 +11,7 @@ echo '> *Please contact v.stone@163.com if there is any mistake*' >> README.md
 
 for _dir in ${_dir_list}
 do
+    [[ "${_dir}" == "static" ]] && continue
     echo ""
     if [[ -d "${_dir}" ]]; then
         echo "$_dir is a dir, list it"
