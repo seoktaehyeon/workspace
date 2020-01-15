@@ -26,6 +26,7 @@ function install_docker
         log_note "No found docker, install it"
         curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun
     }
+    which docker || log_error "Failed to install docker"
     systemctl restart docker
     systemctl enable docker
     log_succeed "Docker installation complete"
