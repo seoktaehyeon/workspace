@@ -1,0 +1,11 @@
+version: '2'
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    image: elasticsearch:7.5.2
+    restart: always
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+    env:
+      discovery.type: single-node
