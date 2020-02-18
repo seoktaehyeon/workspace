@@ -1,0 +1,10 @@
+version: '2'
+services:
+  mockserver:
+    image: mockserver/mockserver
+    container_name: mockserver
+    ports:
+      - 1080:1080
+    environment:
+      LOG_LEVEL: "DEBUG"
+      SERVER_PORT: 1080
