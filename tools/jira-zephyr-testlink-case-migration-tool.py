@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # Author: Will v.stone@163.com
-## Dependence:
-pip install TestlinkApiClient
 
 import os
 from xml.dom.minidom import parseString
@@ -16,18 +14,22 @@ try:
 except:
     os.system('pip install requests')
     import requests
-    
+
 jira_url = ''
 jira_user = ''
 jira_password = ''
+tl_url = ''
+tl_user = ''
+tl_dev_key = ''
 ids = {
     # 'JIRA Issue ID': 'TestLink Case External ID',
 }
-tl_project_name = '' 
+tl_project_name = ''
 tl_suite_name = ''
 
 session = requests.session()
 session.auth = (jira_user, jira_password)
+testlink = TestlinkClient(url=tl_url, user=tl_user, dev_key=tl_dev_key)
 for key in ids.keys():
     jira_id = key
     tl_id = ids[key]
