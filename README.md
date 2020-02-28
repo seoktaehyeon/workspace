@@ -49,5 +49,7 @@
 - *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/config-vm-host.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/config-vm-host.sh)*
 #### docker-registry-cleanup.sh
 - *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/docker-registry-cleanup.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/docker-registry-cleanup.sh)*
+#### jira-zephyr-testlink-case-migration-tool.py
+- *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/jira-zephyr-testlink-case-migration-tool.py)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/jira-zephyr-testlink-case-migration-tool.py)*
 #### k8s-install.sh
 - *Raw Link:  [[ GitHub ]](https://raw.githubusercontent.com/seoktaehyeon/workspace/master/tools/k8s-install.sh)  [[ Gitee ]](https://gitee.com/vstone/workspace/raw/master/tools/k8s-install.sh)*
