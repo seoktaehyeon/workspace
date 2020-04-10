@@ -1,55 +1,51 @@
 #!/bin/bash
 # Author: v.stone@163.com
 
-HELP_DOC="
-Usage: $0 <options> <arguments>
-Options:
-    -l  IP List.
-        e.g.
-            192.168.1.100-103
-            192.168.1.100 192.168.1.101 192.168.1.102 192.168.1.103
-    -p  Root Password
-    -h  Print Help
-
-Example:
-    $0 -l \"192.168.1.100-103\" -p \"password\"
-    $0 -h
-"
-
-#IPS=${1?$(echo -e "\033[31;40;1m [ ERROR ] \033[0m") "Please provide ip list, e.g. '192.168.1.1 192.168.1.2' $HELP_DOC"}
-#PASSWORD=${2?$(echo -e "\033[31;40;1m [ ERROR ] \033[0m") "Please provide cluster ssh password $HELP_DOC"}
 IP_LIST=""
 ROOT_PASSWORD=""
-HOSTS="## Cluster Hosts Start"
 SSH_ROOT="/root/.ssh"
+SCRIPTS_VERSION="cluster-exec v1.0"
+
+function help_doc
+{
+    cat <<EOF
+Usage: $0 <options> <arguments>
+Options:
+    --ips       IP List.
+                e.g.
+                    192.168.1.100-103
+                    192.168.1.100 192.168.1.101 192.168.1.102 192.168.1.103
+    --password  Root Password
+    --help      Print Help
+
+Example:
+    $0 --ips "192.168.1.100-103" --password "password"
+    $0 --help
+EOF
+    exit 1
+}
 
 function log_note
 {
-    echo -e "\033[34;40;1m $@ \033[0m"
+    echo -e "\033[34;6m$@ \033[0m"
     return 0
 }
 
 function log_succeed
 {
-    echo -e "\033[32;40;1m [ SUCCEED ] \033[0m" $@ "\n"
+    echo -e "\033[32;6m[ SUCCEED ] $@ \n \033[0m"
     return 0
 }
 
 function log_error
 {
-    echo -e "\033[31;40;1m [ ERROR ] \033[0m" $@
-    exit 1
-}
-
-function log_help
-{
-    echo "${HELP_DOC}"
+    echo -e "\033[31;6m[ ERROR ] $@ \033[0m"
     exit 1
 }
 
 function check_env
 {
-#    [[ "$(uname)" == "Linux" ]] || log_error "Only support Linux"
+    [[ "$(uname)" == "Linux" ]] || log_error "Only support Linux"
     [[ -z "${IP_LIST}" ]] && log_help
     [[ -z "${ROOT_PASSWORD}" ]] && log_help
     log_note "Start to check env"
@@ -95,7 +91,7 @@ function _copy_ssh_id
     _ip=${1?}
     _password=${2?}
     expect <<EOF
-        set time 3
+        set timeout 3
         spawn ssh-copy-id root@${_ip}
         expect {
             "*yes/no" { send "yes\r"; exp_continue }
@@ -118,55 +114,72 @@ function copy_ssh_id
         log_note "Copy id_rsa into node ${ip}"
         scp ${SSH_ROOT}/id_rsa root@${ip}:${SSH_ROOT}/id_rsa || log_error "Failed to copy id_rsa to node ${ip}"
     done
-    log_succeed "Complete"
+    log_succeed "Complete to config ssh"
     return 0
 }
 
 function update_etc_hosts
 {
     log_note "Update /etc/hosts in all nodes"
+    hosts_text="## Cluster Hosts Start"
+    node_master="true"
     for ip in ${IP_LIST}
     do
         host=$(ssh root@${ip} 'echo $HOSTNAME') || log_error "Failed to get ${ip}'s hostname"
-        HOSTS="$HOSTS
-$ip    $host"
+        if [[ "${node_master}" == "true" ]]; then
+            hosts_text="$hosts_text
+$ip    $host    # cluster-exec master"
+            node_master="false"
+        else
+            hosts_text="$hosts_text
+$ip    $host    # cluster-exec slave"
+        fi
     done
-    HOSTS="$HOSTS
+    hosts_text="$hosts_text
 ## Cluster Hosts End"
     for ip in ${IP_LIST}
     do
         log_note "Append all nodes hosts into ${ip}"
-        ssh root@${ip} "echo \"$HOSTS\" >> /etc/hosts" || log_error "ssh execution failure"
+        ssh root@${ip} "echo \"$hosts_text\" >> /etc/hosts" || log_error "ssh execution failure"
     done
-    log_succeed "Update complete"
+    log_succeed "Complete to update all /etc/hosts files"
     return 0
 }
 
 function generate_cluster_exec
 {
-    log_note "Generate temp scripts of cluster-exec"
+   log_note "Generate temp scripts of cluster-exec"
     temp_scripts='/tmp/cluster-exec'
-    echo '#!/bin/bash' > ${temp_scripts}
-    echo 'cmd=${1?}' >> ${temp_scripts}
-    echo "start_line=\$(grep '## Cluster Hosts Start' -n /etc/hosts | awk -F ':' '{print \$1}')" >> ${temp_scripts}
-    echo "end_line=\$(grep '## Cluster Hosts End' -n /etc/hosts | awk -F ':' '{print \$1}')" >> ${temp_scripts}
-    echo "host_list=\$(sed -n \${start_line},\${end_line}p /etc/hosts | grep -v '##' | awk '{print \$2}')" >> ${temp_scripts}
-    echo "for host in \${host_list}" >> ${temp_scripts}
-    echo 'do' >> ${temp_scripts}
-    echo '    echo ""' >> ${temp_scripts}
-    echo '    echo "Executed Command In ${host} :"' >> ${temp_scripts}
-    echo '    ssh root@${host} "$cmd"' >> ${temp_scripts}
-    echo '    echo ""' >> ${temp_scripts}
-    echo 'done' >> ${temp_scripts}
+    cat <<EOF > ${temp_scripts}
+#!/bin/bash
+node=\${1?}
+cmd=\${2?}
+master=\$(grep '# cluster-exec master' /etc/hosts | awk '{print \$1}')
+slaves=\$(grep '# cluster-exec slave' /etc/hosts | awk '{print \$1}')
+exec_nodes=""
+if [[ "\${node}" == "all" ]]; then
+    exec_nodes="\$master \$slaves"
+elif [[ "\${node}" == "master" ]]; then
+    exec_nodes="\$master"
+elif [[ "\${node}" == "slave" ]]; then
+    exec_nodes="\$slaves"
+fi
+for host in \${exec_nodes}
+do
+    echo -e "\nExecuted Command In \${host}:"
+    ssh root@\${host} "\$cmd"
+done
+echo -e "\n"
+EOF
     chmod +x ${temp_scripts}
-    log_succeed "Generation complete"
+    log_succeed "cluster-exec scripts generation complete"
     log_note "Copy cluster-exec into all nodes"
     for ip in ${IP_LIST}
     do
         log_note "scp to ${ip}"
         scp ${temp_scripts} root@${ip}:/usr/local/bin/ || log_error "scp failure"
     done
-    log_succeed "Complete"
+    log_succeed "Complete to copy cluster-exec"
     return 0
 }
 
@@ -174,7 +187,7 @@ function _ssh_try
 {
     _host=${1?}
     expect <<EOF
-        set time 3
+        set timeout 3
         spawn ssh root@${_host}
         expect {
             "*yes/no" { send "yes\r"}
@@ -198,26 +211,46 @@ function try_exec
         _ssh_try ${_host} || log_error "Failed to ssh ${_host}"
     done
     log_note "Run cluster-exec 'free -h'"
-    cluster-exec "free -h" || log_error "Execute cluster-exec failure"
+    cluster-exec all "free -h" || log_error "Execute cluster-exec failure"
     log_succeed "cluster-exec works fine"
     return 0
 }
 
 ## Main
-while getopts ':l:p:h' OPT
+eval set -- $(getopt -o "" -l ips:,password:,help --name "$0" -- "$@")
+while (( $# != 0 ))
 do
-    case ${OPT} in
-        l)
-            IP_LIST="${OPTARG}"
+    case $1 in
+        --ips)
+            IP_LIST=$2
+            [[ -z "${IP_LIST}" ]] && {
+                log_error "option ips' value is empty"
+                help_doc
+            }
+            shift 2
             ;;
-        p)
-            ROOT_PASSWORD="${OPTARG}"
+        --password)
+            ROOT_PASSWORD=$2
+            [[ -z "${ROOT_PASSWORD}" ]] && {
+                log_error "option password's value is empty"
+                help_doc
+            }
+            shift 2
             ;;
+        --help)
+            help_doc
+            ;;
+        --)
+            shift
+            ;;
+
         *)
-            log_help
+            help_doc
+            exit 1
             ;;
     esac
 done
+log_note "${SCRIPTS_VERSION}"
 check_env
 generate_ssh_key
 copy_ssh_id
