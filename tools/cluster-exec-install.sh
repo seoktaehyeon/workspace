@@ -46,8 +46,8 @@ function log_error
 function check_env
 {
     [[ "$(uname)" == "Linux" ]] || log_error "Only support Linux"
-    [[ -z "${IP_LIST}" ]] && log_help
-    [[ -z "${ROOT_PASSWORD}" ]] && log_help
+    [[ -z "${IP_LIST}" ]] && help_doc
+    [[ -z "${ROOT_PASSWORD}" ]] && help_doc
     log_note "Start to check env"
     echo "${IP_LIST}" | grep -q '-' && {
         IP_PREFIX=$(echo "${IP_LIST}" | awk -F '.' '{print $1"."$2"."$3}')
