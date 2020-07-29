@@ -24,7 +24,7 @@ wordpress.yaml | *[ Raw Link ](https://raw.githubusercontent.com/seoktaehyeon/wo
 ## knowledge-base
 File | GitHub | Gitee
 ---- | ---- | ----
-esx.md | *[ Link ](https://github.com/seoktaehyeon/workspace/blob/master/knowledge-base/esx.md)* | *[ Link ](https://gitee.com/vstone/workspace/blob/master/knowledge-base/esx.md)*
+esx.md | *[ Read ](https://github.com/seoktaehyeon/workspace/blob/master/knowledge-base/esx.md)* | *[ Read ](https://gitee.com/vstone/workspace/blob/master/knowledge-base/esx.md)*
 ## tools
 File | GitHub | Gitee
 ---- | ---- | ----

@@ -25,7 +25,7 @@ do
                 _file_link_github="${_github_blob_link}/${_dir}/${_file}"
                 _file_link_gitee="${_gitee_blob_link}/${_dir}/${_file}"
                 echo -e "${_file}:\n${_file_link_github}\n${_file_link_gitee}"
-                echo "${_file} | *[ Link ](${_file_link_github})* | *[ Link ](${_file_link_gitee})*" >> README.md
+                echo "${_file} | *[ Read ](${_file_link_github})* | *[ Read ](${_file_link_gitee})*" >> README.md
             else
                 _file_link_github="${_github_raw_link}/${_dir}/${_file}"
                 _file_link_gitee="${_gitee_raw_link}/${_dir}/${_file}"
