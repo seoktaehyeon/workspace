@@ -3,11 +3,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    {% if page.title == '闲话保险' %}
+    {% if page.title == '撩保星球' %}
     <title>{{ site.title }}</title>
     {% elsif page.title contains '作者' %}
     <title>{{ page.author }} - {{ site.title }}</title>
-    {% elsif page.title contains '标签' %}
+    {% elsif page.title contains '话题' %}
     <title>{{ page.tags[0] }} - {{ site.title }}</title>
     {% else %}
     <title>{{ page.title }} - {{ site.title }} </title>
