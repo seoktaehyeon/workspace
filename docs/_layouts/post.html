@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% include head.html %}
+<body data-rsssl=1 
+    class="post-template-default single single-post single-format-standard">
+{% include nav.html %}
+{% include page_title.html %}
+<!-- Blog Section Right Sidebar -->
+<div class="page-builder">
+    <div class="container">
+        <div class="row">
+            <!-- Blog Area -->
+            <div class="col-md-8">
+                {% assign post_id = page.date | date: '%Y-%m-%d' %}
+                <div id="post-{{ post_id }}"
+                     class="blog-lg-area-left post-{{ post_id }} post type-post status-publish format-standard has-post-thumbnail hentry category-freestyle">
+                    <div class="media">
+                        <!--show date of post-->
+                        <aside class="blog-post-date-area">
+                            <div class="date">{{ page.date | date: '%d' }}
+                                <div class="month-year">{{ page.date | date: '%m' }}月,{{ page.date | date: '%Y' }}</div>
+                            </div>
+                        </aside>
+                        <div class="media-body">
+                            <div class="blog-lg-box">
+                                <a class="img-responsive" href="#"
+                                   title="{{ page.title }}">
+                                    <img width="950" height="290"
+                                         src="//bowxeon.gitee.io/www.baoxian-sz.com/assets/img/blog/{{ post_id }}.png"
+                                         class="img-responsive wp-post-image" alt=""
+                                         srcset="//bowxeon.gitee.io/www.baoxian-sz.com/assets/img/blog/{{ post_id }}.png 950w, //bowxeon.gitee.io/www.baoxian-sz.com/assets/img/blog/{{ post_id }}.png 300w, //bowxeon.gitee.io/www.baoxian-sz.com/assets/img/blog/{{ post_id }}.png 768w"
+                                         sizes="(max-width: 950px) 100vw, 950px"/>
+                                </a>
+                            </div>
+                            <div class="blog-post-lg">
+                                <a href="/author/{{ page.author | downcase }}">
+                                    <img alt=''
+                                         src='//bowxeon.gitee.io/www.baoxian-sz.com/assets/img/author/{{ page.author }}.png'
+                                         srcset='//bowxeon.gitee.io/www.baoxian-sz.com/assets/img/author/{{ page.author }}.png 2x'
+                                         class='img-responsive img-circle avatar-40 photo'
+                                         height='40' width='40'/>
+                                </a>
+                                作者<a href="/author/{{ page.author | downcase }}">{{ page.author }}</a>
+                                <div class="blog-tags-lg">
+                                    <i class="fa fa-tags"></i>
+                                    {% for tag in page.tags %}
+                                    <a href="/tag/{{ tag }}" rel="tag">{{ tag }}</a>&nbsp;
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <h3>{{ page.title }}</h3>
+                            {{ content }}
+                        </div>
+                    </div>
+                </div>
+
+                <div id="post-list"
+                     class="blog-lg-area-left post-list post type-post status-publish format-standard has-post-thumbnail hentry category-freestyle">
+                    <div class="media">
+                        <!--show date of post-->
+                        <aside class="blog-post-date-area">
+                            <div class="date">
+                                <i class="fa fa-send"></i>
+                                <div class="month-year">相关推荐</div>
+                            </div>
+                        </aside>
+                        <div class="media-body">
+                            <ul>
+                                {% for post in site.posts %}
+                                {% if post.id == page.id %}
+                                {% continue %}
+                                {% else %}
+                                {% for tag in page.tags %}
+                                {% if post.tags contains tag %}
+                                <li>
+                                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
+                                </li>
+                                {% break %}
+                                {% endif %}
+                                {% endfor %}
+                                {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /Blog Area -->
+            {% include sidebar.html%}
+        </div>
+    </div>
+</div>
+<!-- /Blog Section Right Sidebar -->
+{% include footer.html %}
+</body>
+</html>
