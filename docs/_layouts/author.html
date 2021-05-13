@@ -8,8 +8,8 @@ layout: default
     <div class="media">
         <div class="pull-left">
             <img alt=''
-                 src='{{ page.img }}'
-                 srcset='{{ page.img }} 2x'
+                 src="{{ site.img_path }}/{{ page.img }}"
+                 srcset="{{ site.img_path }}/{{ page.img }} 2x"
                  class='img-responsive img-circle avatar-200 photo' height='120' width='120'/></div>
             <div class="media-body">
                 <h2> {{ page.author }} {{ page.display_name }}<span style="margin-top: 15px;"> {{ page.org }} </span></h2>
