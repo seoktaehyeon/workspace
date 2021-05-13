@@ -26,17 +26,17 @@
                                 <a class="img-responsive" href="#"
                                    title="{{ page.title }}">
                                     <img width="950" height="290"
-                                         src="//vstone.gitee.io/worksapce/assets/posts/{{ post_id }}.png"
+                                         src="{{ site.post_img_path }}/{{ post_id }}.png"
                                          class="img-responsive wp-post-image" alt=""
-                                         srcset="//vstone.gitee.io/workspace/assets/posts/{{ post_id }}.png 950w, //vstone.gitee.io/workspace/assets/posts/{{ post_id }}.png 300w, //vstone.gitee.io/workspace/assets/posts/{{ post_id }}.png 768w"
+                                         srcset="{{ site.post_img_path }}/{{ post_id }}.png 950w, {{ site.post_img_path }}/{{ post_id }}.png 300w, {{ site.post_img_path }}/{{ post_id }}.png 768w"
                                          sizes="(max-width: 950px) 100vw, 950px"/>
                                 </a>
                             </div>
                             <div class="blog-post-lg">
                                 <a href="/author/{{ page.author | downcase }}">
                                     <img alt=''
-                                         src='//vstone.gitee.io/workspace/assets/{{ page.author }}.png'
-                                         srcset='//vstone.gitee.io/workspace/assets/{{ page.author }}.png 2x'
+                                         src='{{ site.img_path }}/{{ page.author }}.svg'
+                                         srcset='{{ site.img_path }}/{{ page.author }}.svg 2x'
                                          class='img-responsive img-circle avatar-40 photo'
                                          height='40'/>
                                 </a>
