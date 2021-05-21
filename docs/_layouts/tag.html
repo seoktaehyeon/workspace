@@ -19,9 +19,9 @@ layout: default
 		    <a class="img-responsive" href="{{ post.url }}"
                    title="{{ post.title }}">
                     <img width="950" height="290"
-                         src="{{ post.img }}"
+                         src="{{ site.post_img_path }}/{{ post_id }}.png"
                          class="img-responsive wp-post-image" alt=""
-                         srcset="{{ post.img }} 950w, {{ post.img }} 300w, {{ post.img }} 768w"
+                         srcset="{{ site.post_img_path }}/{{ post_id }}.png 950w, {{ site.post_img_path }}/{{ post_id }}.png 300w, {{ site.post_img_path }}/{{ post_id }}.png 768w"
                          sizes="(max-width: 950px) 100vw, 950px"/>
                 </a>
             </div>
