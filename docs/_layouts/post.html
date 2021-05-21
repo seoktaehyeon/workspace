@@ -26,7 +26,7 @@
                                 <a class="img-responsive" href="#"
                                    title="{{ page.title }}">
                                     <img width="950" height="290"
-                                         src="{{ site.post_img_path }}/{{ post_id }}.png"
+                                         src="{{ post.img }}.png"
                                          class="img-responsive wp-post-image" alt=""
                                          srcset="{{ site.post_img_path }}/{{ post_id }}.png 950w, {{ site.post_img_path }}/{{ post_id }}.png 300w, {{ site.post_img_path }}/{{ post_id }}.png 768w"
                                          sizes="(max-width: 950px) 100vw, 950px"/>
@@ -77,22 +77,6 @@
                                     {% endfor %}
                                 {% endif %}
                             {% endfor %}
-<!--                            <ul>-->
-<!--                                {% for post in site.posts %}-->
-<!--                                {% if post.id == page.id %}-->
-<!--                                {% continue %}-->
-<!--                                {% else %}-->
-<!--                                {% for tag in page.tags %}-->
-<!--                                {% if post.tags contains tag %}-->
-<!--                                <li>-->
-<!--                                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>-->
-<!--                                </li>-->
-<!--                                {% break %}-->
-<!--                                {% endif %}-->
-<!--                                {% endfor %}-->
-<!--                                {% endif %}-->
-<!--                                {% endfor %}-->
-<!--                            </ul>-->
                         </div>
                     </div>
                 </div>
