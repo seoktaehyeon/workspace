@@ -65,22 +65,34 @@
                             </div>
                         </aside>
                         <div class="media-body">
-                            <ul>
-                                {% for post in site.posts %}
+                            {% for post in site.posts %}
                                 {% if post.id == page.id %}
-                                {% continue %}
+                                    {% continue %}
                                 {% else %}
-                                {% for tag in page.tags %}
-                                {% if post.tags contains tag %}
-                                <li>
-                                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-                                </li>
-                                {% break %}
+                                    {% for tag in page.tags %}
+                                        {% if post.tags contains tag %}
+                                            <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+                                            {% break %}
+                                        {% endif %}
+                                    {% endfor %}
                                 {% endif %}
-                                {% endfor %}
-                                {% endif %}
-                                {% endfor %}
-                            </ul>
+                            {% endfor %}
+<!--                            <ul>-->
+<!--                                {% for post in site.posts %}-->
+<!--                                {% if post.id == page.id %}-->
+<!--                                {% continue %}-->
+<!--                                {% else %}-->
+<!--                                {% for tag in page.tags %}-->
+<!--                                {% if post.tags contains tag %}-->
+<!--                                <li>-->
+<!--                                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>-->
+<!--                                </li>-->
+<!--                                {% break %}-->
+<!--                                {% endif %}-->
+<!--                                {% endfor %}-->
+<!--                                {% endif %}-->
+<!--                                {% endfor %}-->
+<!--                            </ul>-->
                         </div>
                     </div>
                 </div>

@@ -61,12 +61,9 @@ layout: default
             </div>
         </aside>
         <div class="media-body">
-            <ul>
             {% for post in site.posts %}
-            {% if post.tags contains page.tags[0] %}
-            <li>
-                <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-            </li>
+                {% if post.tags contains page.tags[0] %}
+                    <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
 <!--            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>-->
 <!--            <div class="blog-post-lg">-->
 <!--                <div class="blog-tags-lg">-->
@@ -76,7 +73,7 @@ layout: default
 <!--                    {% endfor %}-->
 <!--                </div>-->
 <!--            </div>-->
-            {% endif %}
+                {% endif %}
             {% endfor %}
             </ul>
         </div>

@@ -32,14 +32,20 @@ layout: default
             </div>
         </aside>
         <div class="media-body">
-            <ul>
-                {% for post in site.posts %}
+            {% for post in site.posts %}
                 {% if post.author != page.author %}
-                {% continue %}
+                    {% continue %}
                 {% endif %}
-                <li>
-                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>
-                </li>
+                <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+            {% endfor %}
+<!--            <ul>-->
+<!--                {% for post in site.posts %}-->
+<!--                {% if post.author != page.author %}-->
+<!--                {% continue %}-->
+<!--                {% endif %}-->
+<!--                <li>-->
+<!--                    <h4><a href="{{ post.url }}">{{ post.title }}</a></h4>-->
+<!--                </li>-->
                 <!--            <h3><a href="{{ post.url }}">{{ post.title }}</a></h3>-->
                 <!--            <div class="blog-post-lg">-->
                 <!--                <div class="blog-tags-lg">-->
