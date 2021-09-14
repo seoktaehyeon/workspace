@@ -3,29 +3,29 @@ services:
    tl-mariadb:
      container_name: tl-mariadb
      image: bitnami/mariadb:latest
+     volumes:
+       - ./testlink/mariadb_data:/bitnami/mariadb
      environment:
+       - ALLOW_EMPTY_PASSWORD=yes
        - MARIADB_USER=tl_testlink
        - MARIADB_DATABASE=tl_testlink
-       - ALLOW_EMPTY_PASSWORD=yes
-     volumes:
-       - ./testlink/mariadb_data:/bitnami
 
    tl-testlink:
      container_name: tl-testlink
-     image: bitnami/testlink:1
-     environment:
-       - MARIADB_HOST=tl-mariadb
-       - MARIADB_PORT_NUMBER=3306
-       - TESTLINK_DATABASE_USER=tl_testlink
-       - TESTLINK_DATABASE_NAME=tl_testlink
-       - ALLOW_EMPTY_PASSWORD=yes
-       - TESTLINK_USERNAME=will
-       - TESTLINK_PASSWORD=baoxian-sz
-       - TESTLINK_EMAIL=shiwei@baoxian-sz.com
+     image: bitnami/testlink:1.9.20
      ports:
        - 80:80
        - 443:443
      volumes:
-       - ./testlink/testlink_data:/bitnami
+       - ./testlink/testlink_data:/bitnami/testlink
+     environment:
+       - ALLOW_EMPTY_PASSWORD=yes
+       - TESTLINK_DATABASE_HOST=tl-mariadb
+       - TESTLINK_DATABASE_PORT_NUMBER=3306
+       - TESTLINK_DATABASE_USER=tl_testlink
+       - TESTLINK_DATABASE_NAME=tl_testlink
+       - TESTLINK_USERNAME=will
+       - TESTLINK_PASSWORD=baoxian-sz
+       - TESTLINK_EMAIL=shiwei@baoxian-sz.com
      depends_on:
        - tl-mariadb
