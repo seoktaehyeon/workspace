@@ -16,7 +16,7 @@ services:
     ports:
       - 8080:8080
     environment:
-      SW_OAP_ADDRESS: skywalking-oap:12800
+      SW_OAP_ADDRESS: http://skywalking-oap:12800
       SW_TIMEOUT: 20000
     depends_on:
       - skywalking-oap
