@@ -100,6 +100,14 @@ navs:
         page_title: "健康保障"
         url: "/health-menu/day"
         target: "_blank"
+      - name: "一周菜单"
+        page_title: "健康保障"
+        url: "/health-menu/week"
+        target: "_blank"
+      - name: "一个月菜单"
+        page_title: "健康保障"
+        url: "/health-menu/month"
+        target: "_blank"
 
 my_projects:
   - name: QSphere质量数据平台

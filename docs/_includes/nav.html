@@ -24,7 +24,7 @@
                 {% for item in site.navs %}
                 {% if item.has_sub_nav == true %}
                 <li class="menu-item menu-item-type-custom menu-item-object-custom dropdown">
-                    <a>item.name<b class="caret"></b></a>
+                    <a>{{ item.name }}<b class="caret"></b></a>
                     <ul class="dropdown-menu default">
                         {% for sub_item in item.sub_navs %}
                         <li class="menu-item page_item dropdown dropdown-submenu">
