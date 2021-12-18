@@ -26,13 +26,9 @@
         <div class="sidebar-widget">
             <div class="sidebar-widget-title"><h3>我参与的项目</h3></div>
             <ul>
-                <li><a target="_blank" href="https://qualitysphere.gitee.io/">QSphere质量数据平台</a></li>
-                <li><a target="_blank" href="https://qualitysphere.gitee.io/4_odo/">OpenDevOps</a></li>
-                <li><a target="_blank" href="https://qualitysphere.gitee.io/4_allure/">Allure框架中文手册</a></li>
-                <li><a target="_blank" href="https://pypi.org/project/WorkWeixinRobot/">PyPi WorkWeixinRobot</a></li>
-                <li><a target="_blank" href="https://pypi.org/project/TestlinkApiClient/">PyPi TestlinkApiClient</a></li>
-                <li><a target="_blank" href="https://pypi.org/project/tm4jReporter/">PyPi tm4jReporter</a></li>
-                <li><a target="_blank" href="https://pypi.org/project/opsctl/">PyPi opsctl</a></li>
+                {% for item in site.my_projects %}
+                <li><a target="_blank" href="{{ item.url }}">{{ item.name }}</a></li>
+                {% endfor %}
             </ul>
         </div>
         <div class="sidebar-widget">

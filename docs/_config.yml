@@ -64,7 +64,62 @@ js_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/js"
 img_path: "//vstone.gitee.io/workspace/assets"
 post_img_path: "//vstone.gitee.io/workspace/assets/posts"
 
+navs:
+  - name: "首页"
+    page_title: "撩保星球"
+    url: "/"
+    target: ""
+    has_sub_nav: false
+  - name: "软件质量保障"
+    page_title: "主题：软件质量保障"
+    url: "/tag/软件质量保障"
+    target: ""
+    has_sub_nav: false
+  - name: "软件测试"
+    page_title: "主题：软件测试"
+    url: "/tag/软件测试"
+    target: ""
+    has_sub_nav: false
+  - name: "DevOps"
+    page_title: "主题：DevOps"
+    url: "/tag/DevOps"
+    target: ""
+    has_sub_nav: false
+  - name: "工作台"
+    page_title: "Will's Workspace"
+    url: "/tag/workspace"
+    target: ""
+    has_sub_nav: false
+  - name: "健康保障"
+    page_title: "健康保障"
+    url: ""
+    target: ""
+    has_sub_nav: true
+    sub_navs:
+      - name: "一日菜单"
+        page_title: "健康保障"
+        url: "/health-menu/day"
+        target: "_blank"
+
+my_projects:
+  - name: QSphere质量数据平台
+    url: "https://qualitysphere.gitee.io/"
+  - name: OpenDevOps
+    url: "https://qualitysphere.gitee.io/ext/odo/"
+  - name: Allure框架中文手册
+    url: "https://qualitysphere.gitee.io/ext/allure/"
+  - name: PyPi WorkWeixinRobot
+    url: "https://pypi.org/project/WorkWeixinRobot/"
+  - name: PyPi TestlinkApiClient
+    url: "https://pypi.org/project/TestlinkApiClient/"
+  - name: PyPi tm4jReporter
+    url: "https://pypi.org/project/tm4jReporter/"
+  - name: PyPi opsctl
+    url: "https://pypi.org/project/opsctl/"
+  - name: PyPi
+    url: "https://pypi.org/project/health-menu/"
+
 copyright: |
-  版权归 <a href="//office.baoxian-sz.com"><b>真心话险事务所</b></a> 所有<br>
+  版权归 <a href="//office.bowxeon.com"><b>真心话险事务所</b></a> 所有<br>
   Copyright ©2017-2021 Truth & Insurance All Rights Reserved
 beian: 苏ICP备18036961号
