@@ -47,51 +47,35 @@ exclude:
   - .gitignore
   - .github
   - Gemfile
+  - Dockerfile
 # EXCLUDE_IN_DOCKER  - assets/css/
 # EXCLUDE_IN_DOCKER  - assets/js/
 # EXCLUDE_IN_DOCKER  - assets/img/
 # EXCLUDE_IN_DOCKER  - assets/posts/
-  # - assets/fonts  # EXCLUDE_IN_GITEE_PAGES
-  # - _layouts      # EXCLUDE_IN_GITEE_PAGES
-  # - _includes     # EXCLUDE_IN_GITEE_PAGES
-  # - index.md      # EXCLUDE_IN_GITEE_PAGES
-  # - pagetree.json # EXCLUDE_IN_GITEE_PAGES
-  # - search.md     # EXCLUDE_IN_GITEE_PAGES
-  # - search.json   # EXCLUDE_IN_GITEE_PAGES
-  # - 404.md        # EXCLUDE_IN_GITEE_PAGES
-  # - sqa/          # EXCLUDE_IN_GITEE_PAGES
-  # - stest/        # EXCLUDE_IN_GITEE_PAGES
-  # - devops/       # EXCLUDE_IN_GITEE_PAGES
-  # - workspace/    # EXCLUDE_IN_GITEE_PAGES
-  # - health/       # EXCLUDE_IN_GITEE_PAGES
-  # - author/       # EXCLUDE_IN_GITEE_PAGES
+  - assets/fonts  # EXCLUDE_IN_GITEE_PAGES
+  - _layouts      # EXCLUDE_IN_GITEE_PAGES
+  - _includes     # EXCLUDE_IN_GITEE_PAGES
+  - index.md      # EXCLUDE_IN_GITEE_PAGES
+  - pagetree.json # EXCLUDE_IN_GITEE_PAGES
+  - search.md     # EXCLUDE_IN_GITEE_PAGES
+  - search.json   # EXCLUDE_IN_GITEE_PAGES
+  - 404.md        # EXCLUDE_IN_GITEE_PAGES
+  - sqa/          # EXCLUDE_IN_GITEE_PAGES
+  - devops/       # EXCLUDE_IN_GITEE_PAGES
+  - workspace/    # EXCLUDE_IN_GITEE_PAGES
+  - health/       # EXCLUDE_IN_GITEE_PAGES
+  - author/       # EXCLUDE_IN_GITEE_PAGES
 
 path:
-#  css: "//vstone.gitee.io/workspace/assets/css"
-#  js: "//vstone.gitee.io/workspace/assets/js"
-#  img: "//vstone.gitee.io/workspace/assets/img"
-#  posts: "//vstone.gitee.io/workspace/assets/posts"
-#  fonts: "//will.bowxeon.com/assets/fonts"
- css: "/assets/css"
- js: "/assets/js"
- img: "/assets/img"
- posts: "/assets/posts"
- fonts: "/assets/fonts"
+ css: "//vstone.gitee.io/workspace/assets/css"
+ js: "//vstone.gitee.io/workspace/assets/js"
+ img: "//vstone.gitee.io/workspace/assets/img"
+ posts: "//vstone.gitee.io/workspace/assets/posts"
+ fonts: "//will.bowxeon.com/assets/fonts"
 
 theme_color_header: "#395ca3"
 theme_color_footer: "#f0f0f0"
 theme_color_footer_text: "#70757a"
-
-# assets:
-#   css: "//bowxeon.gitee.io/www.bowxeon.com/assets/css"
-#   font: "//bowxeon.gitee.io/www.bowxeon.com/assets/font"
-#   js: "//bowxeon.gitee.io/www.bowxeon.com/assets/js"
-#   img: "//bowxeon.gitee.io/www.bowxeon.com/assets/css"
-#   post: "//bowxeon.gitee.io/www.bowxeon.com/assets/posts"
-# css_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/css"
-# js_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/js"
-# img_path: "//vstone.gitee.io/workspace/assets"
-# post_img_path: "//vstone.gitee.io/workspace/assets/posts"
 
 nav:
   - title: "首页"
