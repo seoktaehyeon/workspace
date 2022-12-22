@@ -1,0 +1,32 @@
+name: Docker Image CI
+
+on:
+  - push
+
+env:
+  IMG_REPO: bxwill
+  IMG_NAME: bxs
+  IMG_TAG: will-latest
+
+jobs:
+
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        submodules: true
+    - name: Build the Docker image
+      run: |
+        echo -e "\n"
+        echo -e "登陆 Docker"
+        echo -e "\n"
+        echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USER }} --password-stdin
+        echo -e "\n"
+        echo -e "构建镜像 ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}"
+        echo -e "\n"
+        docker build . --file Dockerfile --tag ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}
+        echo -e "\n"
+        echo -e "推送镜像 ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}"
+        echo -e "\n"
+        docker push ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}
