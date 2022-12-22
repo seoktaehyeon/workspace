@@ -72,6 +72,10 @@ path:
  img: "//vstone.gitee.io/workspace/assets/img"
  posts: "//vstone.gitee.io/workspace/assets/posts"
  fonts: "//will.bowxeon.com/assets/fonts"
+ logo: 
+   favicon: "//vstone.gitee.io/workspace/assets/img/logo.png"
+   header: "//vstone.gitee.io/workspace/assets/img/logo_white.svg"
+   footer: "//vstone.gitee.io/workspace/assets/img/logo.svg"
 
 theme_color_header: "#395ca3"
 theme_color_footer: "#f0f0f0"

@@ -87,7 +87,7 @@
     var randomPostTags = ['<em style="color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);">🏷️</em>'];
     var randomPostTagsList = randomPost.tag.split(",");
     for ( var i=0; i<randomPostTagsList.length; i++ ) {
-        randomPostTags.push('<a class="font-bold mb-4" href="/search?q=' + randomPostTagsList[i] + '" rel="tag" style="color: #242526; padding: 5px 0px 5px 5px; text-decoration: none;">' + randomPostTagsList[i] + '</a>&nbsp;');
+        randomPostTags.push('<a class="font-bold mb-4" href="/search.html?q=' + randomPostTagsList[i] + '" rel="tag" style="color: #242526; padding: 5px 0px 5px 5px; text-decoration: none;">' + randomPostTagsList[i] + '</a>&nbsp;');
     }
     document.getElementById("random-post-date").textContent = randomPostDate;
     document.getElementById("random-post-tags").innerHTML = randomPostTags.join("");
