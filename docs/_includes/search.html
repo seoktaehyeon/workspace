@@ -1,0 +1,87 @@
+<main class="flex-grow">
+  <form role="search" id="search-form" method="GET" action="/search.html" vp-id="vp-search-form" class="">
+    <input type="submit" hidden="" aria-hidden="true">
+    <input type="hidden" name="start" value="0">
+    <input type="hidden" name="max" value="10">
+  </form>
+  <div class="vp-search-page">
+    <div class="vp-search-page__search-bar vp-search-bar-container">
+      <div data-vp-id="search-page-search-bar" data-vp-component="search-bar" data-vp-variant="large" class="vp-search-bar">
+        <div class="vp-search-bar__input-container">
+          <div data-vp-component="search-input" data-vp-variant="border" class="vp-search-input vp-search-input--border">
+            <div class="vp-search-input__icon" aria-hidden="true">
+              <span class="vp-icon material-icons mdi-magnify" data-size="md" aria-hidden="true"></span>
+            </div>
+            <input required="" name="q" form="search-form" type="search" autocomplete="off" class="vp-search-input__input" placeholder="搜索关键词">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="vp-search-page__subgrid">
+      <hr class="vp-search-page__hr">
+      <div data-vp-id="search-page-main" class="vp-search-page__main">
+        <p role="status" class="sr-only"></p>
+        <div class="vp-search-page__main-inner">
+          <div role="log" id="search-no-result">
+            <p class="font-bold mb-4">没有找到匹配的内容</p>
+            看看拼写有没有错或者换个关键词吧
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script data-vp-id="search-page-config" type="application/json">
+      {
+          "filterLayout": "vertical"
+      }
+  </script>
+  <script type="text/javascript">
+    window.onload = function () {
+      var searchKV = {};
+      var searchParams = window.location.search.split("?")[1].split("&");
+      for ( var i=0; i<searchParams.length; i++ ) {
+        var kvItem = searchParams[i].split("=");
+        searchKV[kvItem[0]] = kvItem[1];
+      }
+      if ( searchKV.q ) {
+        var searchStr = decodeURIComponent(searchKV.q);
+        document.getElementsByClassName("vp-search-page")[0].getElementsByTagName("input")[0].value = searchStr;
+        var resultRoot = document.getElementsByClassName("vp-search-page__main-inner")[0];
+        var resultList = document.createElement("ul");
+        resultList.id = "results-ul";
+        resultList.setAttribute("aria-label", "Search results");
+        resultList.setAttribute("data-vp-id", "search-page-results");
+        resultList.setAttribute("aria-live", "polite");
+        resultList.setAttribute("aria-atomic", "false");
+        resultList.classList.value = "contents m-0 p-0 list-none";
+        resultRoot.insertBefore(resultList, resultRoot.lastChild);
+        var resultCount = 0;
+        var request = new XMLHttpRequest();
+        request.open('GET', '/search.json', false);
+        request.send();
+        var rspData = JSON.parse(request.responseText);
+        rspData.forEach( obj => {
+          if ( JSON.stringify(obj).includes(searchStr) ) {
+            resultCount++;
+            if ( resultCount == 1 ) {
+              document.getElementById("search-no-result").remove();
+            }
+            var resultItem = document.createElement("li");
+            resultItem.setAttribute("aria-label", "Result " + resultCount);
+            var contentSlice = obj.content.split(searchStr).slice(0,2);
+            var contentSliceList = [contentSlice[0].substr(-20, 20)];
+            if ( contentSlice[1] ) {
+              contentSliceList.push(contentSlice[1].substr(0, 20));
+            }
+            resultItem.innerHTML = "<div class=\"vp-search-result\">\
+              <div class=\"vp-search-result__description\"><em style=\"color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);\">🏷️ </em>" + obj.tag.split(searchStr).join("<em>" + searchStr + "</em>") + "</div>\
+              <h3 class=\"vp-search-result__title\"><a rel=\"noopener\" href=\"" + obj.url + "\">" + obj.title.split(searchStr).join("<em>" + searchStr + "</em>") + "</a></h3>\
+              <p class=\"vp-search-result__description\">" + contentSliceList.join("<em>" + searchStr + "</em>") + "</p>\
+            </div>";
+            document.getElementById("results-ul").insertBefore(resultItem, document.getElementById("results-ul").lastChild);
+          }
+        })
+      }
+    }
+  </script>
+</main>

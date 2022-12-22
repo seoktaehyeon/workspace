@@ -23,8 +23,7 @@ email: service@bowxeon.com
 description: >- # this means to ignore newlines until "baseurl:"
   Assurance Sphere - Will's workspace
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://will.baoxian-sz.com" # the base hostname & protocol for your site, e.g. http://example.com
-# twitter_username: jekyllrb
+url: "https://will.bowxeon.com" # the base hostname & protocol for your site, e.g. http://example.com
 github_username: seoktaehyeon
 
 # Build settings
@@ -45,69 +44,88 @@ timezone: Asia/Shanghai
 # their entries' file path in the `include:` list.
 #
 exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
+  - .gitignore
+  - .github
   - Gemfile
-  - Gemfile.lock
-  - node_modules/
-  - vendor/bundle/
-  - vendor/cache/
-  - vendor/gems/
-  - vendor/ruby/
-  - README.md
-  - Dockerfile
-  - tool/
+# EXCLUDE_IN_DOCKER  - assets/css/
+# EXCLUDE_IN_DOCKER  - assets/js/
+# EXCLUDE_IN_DOCKER  - assets/img/
+# EXCLUDE_IN_DOCKER  - assets/posts/
+  # - assets/fonts  # EXCLUDE_IN_GITEE_PAGES
+  # - _layouts      # EXCLUDE_IN_GITEE_PAGES
+  # - _includes     # EXCLUDE_IN_GITEE_PAGES
+  # - index.md      # EXCLUDE_IN_GITEE_PAGES
+  # - pagetree.json # EXCLUDE_IN_GITEE_PAGES
+  # - search.md     # EXCLUDE_IN_GITEE_PAGES
+  # - search.json   # EXCLUDE_IN_GITEE_PAGES
+  # - 404.md        # EXCLUDE_IN_GITEE_PAGES
+  # - sqa/          # EXCLUDE_IN_GITEE_PAGES
+  # - stest/        # EXCLUDE_IN_GITEE_PAGES
+  # - devops/       # EXCLUDE_IN_GITEE_PAGES
+  # - workspace/    # EXCLUDE_IN_GITEE_PAGES
+  # - health/       # EXCLUDE_IN_GITEE_PAGES
+  # - author/       # EXCLUDE_IN_GITEE_PAGES
 
-css_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/css"
-js_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/js"
-img_path: "//vstone.gitee.io/workspace/assets"
-post_img_path: "//vstone.gitee.io/workspace/assets/posts"
+path:
+#  css: "//vstone.gitee.io/workspace/assets/css"
+#  js: "//vstone.gitee.io/workspace/assets/js"
+#  img: "//vstone.gitee.io/workspace/assets/img"
+#  posts: "//vstone.gitee.io/workspace/assets/posts"
+#  fonts: "//will.bowxeon.com/assets/fonts"
+ css: "/assets/css"
+ js: "/assets/js"
+ img: "/assets/img"
+ posts: "/assets/posts"
+ fonts: "/assets/fonts"
 
-navs:
-  - name: "首页"
-    page_title: "撩保星球"
+theme_color_header: "#395ca3"
+theme_color_footer: "#f0f0f0"
+theme_color_footer_text: "#70757a"
+
+# assets:
+#   css: "//bowxeon.gitee.io/www.bowxeon.com/assets/css"
+#   font: "//bowxeon.gitee.io/www.bowxeon.com/assets/font"
+#   js: "//bowxeon.gitee.io/www.bowxeon.com/assets/js"
+#   img: "//bowxeon.gitee.io/www.bowxeon.com/assets/css"
+#   post: "//bowxeon.gitee.io/www.bowxeon.com/assets/posts"
+# css_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/css"
+# js_path: "//bowxeon.gitee.io/www.baoxian-sz.com/assets/js"
+# img_path: "//vstone.gitee.io/workspace/assets"
+# post_img_path: "//vstone.gitee.io/workspace/assets/posts"
+
+nav:
+  - title: "首页"
+    id: null
     url: "/"
     target: ""
-    has_sub_nav: false
-  - name: "软件质量保障"
-    page_title: "主题：软件质量保障"
-    url: "/tag/软件质量保障"
+  - title: "软件质量保障"
+    id: sqa
+    url: "/sqa"
     target: ""
-    has_sub_nav: false
-  - name: "软件测试"
-    page_title: "主题：软件测试"
-    url: "/tag/软件测试"
+  - title: "DevOps"
+    id: devops
+    url: "/devops"
     target: ""
-    has_sub_nav: false
-  - name: "DevOps"
-    page_title: "主题：DevOps"
-    url: "/tag/DevOps"
+  - title: "工作随笔"
+    id: workspace
+    url: "/workspace"
     target: ""
-    has_sub_nav: false
-  - name: "工作台"
-    page_title: "Will's Workspace"
-    url: "/tag/workspace"
-    target: ""
-    has_sub_nav: false
-  - name: "健康保障"
-    page_title: "健康保障"
-    url: ""
-    target: ""
-    has_sub_nav: true
-    sub_navs:
-      - name: "一日菜单"
-        page_title: "健康保障"
-        url: "/health-menu/day"
-        target: "_blank"
-      - name: "一周菜单"
-        page_title: "健康保障"
-        url: "/health-menu/week"
-        target: "_blank"
-      - name: "一个月菜单"
-        page_title: "健康保障"
-        url: "/health-menu/month"
-        target: "_blank"
+  - title: "健康菜单"
+    id: health
+    url: "/health-menu/day"
+    target: "_blank"
+  # - title: "[日]"
+  #   id: null
+  #   url: "/health-menu/day"
+  #   target: "_blank"
+  # - title: "[周]"
+  #   id: null
+  #   url: "/health-menu/day"
+  #   target: "_blank"
+  # - title: "[月]"
+  #   id: null
+  #   url: "/health-menu/day"
+  #   target: "_blank"
 
 my_projects:
   - name: QSphere质量数据平台
@@ -124,10 +142,7 @@ my_projects:
     url: "https://pypi.org/project/tm4jReporter/"
   - name: PyPi opsctl
     url: "https://pypi.org/project/opsctl/"
-  - name: PyPi
+  - name: PyPi health-menu
     url: "https://pypi.org/project/health-menu/"
 
-copyright: |
-  版权归 <a href="//office.bowxeon.com"><b>真心话险事务所</b></a> 所有<br>
-  Copyright ©2017-2021 Truth & Insurance All Rights Reserved
 beian: 苏ICP备18036961号

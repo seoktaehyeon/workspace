@@ -1,23 +1,11 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 {% include head.html %}
-<body data-rsssl=1
-      class="home page-template page-template-blog-right-sidebar page-template-blog-right-sidebar-php page page-id-114">
+<body class="home blog">
 {% include nav.html %}
-{% include page_title.html %}
-<!-- Blog Section with Sidebar -->
-<div class="page-builder">
-    <div class="container">
-        <div class="row">
-            <!-- Blog Area -->
-            <div class="col-md-8">
-                {{ content }}
-            </div>
-            <!-- /Blog Area -->
-            {% include sidebar.html %}
-        </div>
-    </div>
-</div>
+{{ content }}
 {% include footer.html %}
+{% include mobile.html %}
+<script src="{{site.path.js}}/viewport.js"></script>
 </body>
 </html>

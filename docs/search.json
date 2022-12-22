@@ -1,0 +1,38 @@
+---
+---
+{% assign allPosts = site.posts %}
+{% if allPosts.size == 0 %}
+[]
+{% elsif allPosts.size == 1 %}
+[
+  {
+    "title": "{{ allPosts[0].title }}",
+    "url": "{{ allPosts[0].url }}",
+    "category": "{{ allPosts[0].categories | join: ',' }}",
+    "tag": "{{ allPosts[0].tags | join: ',' }}"
+  }
+]
+{% else %}
+{% assign lastPost = allPosts.size | minus: 1 %}
+{% assign lastPost2 = allPosts.size | minus: 2 %}
+[
+  {% for i in (0..lastPost2) %}
+  {% assign stripContent = allPosts[i].content | strip_html | strip_newlines | replace: '"', ' ' %}
+  {
+    "title": "{{ allPosts[i].title }}",
+    "url": "{{ allPosts[i].url }}",
+    "category": "{{ allPosts[i].categories | join: ',' }}",
+    "tag": "{{ allPosts[i].tags | join: ',' }}",
+    "content": "{{ stripContent }}"
+  },
+  {% endfor %}
+  {% assign lastContent = allPosts[lastPost].content | strip_html | strip_newlines | replace: '"', ' ' %}
+  {
+    "title": "{{ allPosts[lastPost].title }}",
+    "url": "{{ allPosts[lastPost].url }}",
+    "category": "{{ allPosts[lastPost].categories | join: ',' }}",
+    "tag": "{{ allPosts[lastPost].tags | join: ',' }}",
+    "content": "{{ lastContent }}"
+  }
+]
+{% endif %}

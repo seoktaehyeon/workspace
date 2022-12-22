@@ -1,43 +1,39 @@
----
-layout: default
----
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% include head.html %}
 
-<!--Blog Author-->
-<div class="comment-title"><h3>关于作者</h3></div>
-<div class="blog-author">
-    <div class="media">
-        <div class="pull-left">
-            <img alt=''
-                 src="{{ site.img_path }}/{{ page.img }}"
-                 srcset="{{ site.img_path }}/{{ page.img }} 2x"
-                 class='img-responsive img-circle avatar-200 photo' height='120' width='120'/></div>
-            <div class="media-body">
-                <h2> {{ page.author }} {{ page.display_name }}<span style="margin-top: 15px;"> {{ page.org }} </span></h2>
-                {{ page.description }}
-                <ul class="blog-author-social">
-                </ul>
-            </div>
-    </div>
-</div>
-<!--/Blog Author-->
-
-<div id="post-list"
-     class="blog-lg-area-left post-list post type-post status-publish format-standard has-post-thumbnail hentry category-freestyle">
-    <div class="media">
-        <!--show date of post-->
-        <aside class="blog-post-date-area">
-            <div class="date">
-                <i class="fa fa-send"></i>
-                <div class="month-year">TA的文章</div>
-            </div>
-        </aside>
-        <div class="media-body">
-            {% for post in site.posts %}
-                {% if post.author != page.author %}
-                    {% continue %}
-                {% endif %}
-                <h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
-            {% endfor %}
+<body class="home blog">
+  {% include nav.html %}
+  <main class="flex-grow">
+    <div class="vp-article vp-container vp-container--with-content-padding article full vp-article--wide">
+      <div class="flex">
+        <div id="vp-js-desktop__navigation" class="vp-article__aside-left flex-none w-1/6 article__navigation hidden lg:block no-print">
         </div>
+        <div id="article-content" class="vp-article__content-panel flex-auto mx-auto px-0 lg:mb-20 max-w-full">
+          <article role="article">
+            <header>
+                <h1 class="vp-article__heading article__heading" role="heading"><span class="">关于作者</span></h1>
+            </header>
+            <section class="page" id="content" role="main">
+              <div id="main-content" class="wiki-content article__content js-tocBot-content" style="padding: 2%;">
+                <img alt='' src='{{ site.path.img }}/author/{{ page.author | downcase }}.svg' srcset='{{ site.path.img }}/author/{{ page.author | downcase }}.svg 2x' height='120' width='120'/></div>
+                <div >
+                    <h2>{{ page.display_name }}<span style="color: var(--vp-footer-text-color) !important; padding: 5px; font-size: 0.6em;"> {{ page.org }}</span></h2>
+                    <h4>{{ page.org_title }}</h4>
+                </div>
+                <blockquote style="padding-top: 2%; padding-right: 20%">
+                    {{ page.resume | markdownify }}
+                </blockquote>
+            </section>
+          </article>
+        </div>
+        <div class="vp-article__aside-right flex-none w-1/6 article__toc hidden xl:block no-print"></div>
+      </div>
     </div>
-</div>
+  </main>
+  {% include footer.html %}
+  {% include mobile.html %}
+  <script src="{{site.path.js}}/viewport.js"></script>
+</body>
+
+</html>

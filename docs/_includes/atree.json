@@ -1,0 +1,38 @@
+{% assign allPosts = site.posts | where_exp: "item", "item.author == page.author" %}
+{% if allPosts.size == 0 %}
+{
+    "pagetree": []
+}
+{% elsif allPosts.size == 1 %}
+{
+    "pagetree": [
+        {
+            "id": "{{ allPosts[0].url }}",
+            "title": "{{ allPosts[0].title }}",
+            "link": "{{ allPosts[0].url }}",
+            "children": []
+        }
+    ]
+}
+{% else %}
+{% assign lastPost = allPosts.size | minus: 1 %}
+{% assign lastPost2 = allPosts.size | minus: 2 %}
+{
+    "pagetree": [
+        {% for i in (0..lastPost2) %}
+        {
+            "id": "{{ allPosts[i].url }}",
+            "title": "{{ allPosts[i].title }}",
+            "link": "{{ allPosts[i].url }}",
+            "children": []
+        },
+        {% endfor %}
+        {
+            "id": "{{ allPosts[lastPost].url }}",
+            "title": "{{ allPosts[lastPost].title }}",
+            "link": "{{ allPosts[lastPost].url }}",
+            "children": []
+        }
+    ]
+}
+{% endif %}

@@ -1,23 +1,41 @@
-<!-- Footer Section -->
-<div class="clearfix"></div>
-<!-- /Footer Section -->
-<div class="clearfix"></div>
-<!-- Footer Copyright Section -->
-<div class="footer-copyright-section">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="footer-copyright">
-                    {{ site.copyright }}
-                    <a href="https://beian.miit.gov.cn" target="_blank">{{ site.beian }}</a>
-                </div>
+<footer class="footer hc-footer-background-color">
+    <div class="grid lg:flex footer--alignment hc-footer-font-color" style="max-width: 100%;">
+        <div class="flex hc-footer-font-color">
+            <img src="{{ site.path.img }}/logo.svg" class="footer__logo" alt="BowXeon Logo" title="BowXeon">
+        </div>
+        <div class="grid">
+            <div class="footer__links">
             </div>
+            {% assign buildAt = "now" | date: "%Y-%m-%d" %}
+            {% assign copyYear = "now" | date: "%Y" %}
+            <span class="footer__attribution-line--copyright hc-footer-font-color">
+                <span class="no-print">
+                    <i18n-message i18nkey="">Build at {{ buildAt }}</i18n-message>
+                    •
+                </span>
+                <i18n-message i18nkey="footer.copyright.label"
+                    options="{ &quot;date&quot;: &quot;2020-{{ copyYear }}&quot;, &quot;by&quot;: &quot;&quot; }">
+                </i18n-message>
+                <span class="no-print">
+                    •
+                    <i18n-message i18nkey="footer.poweredBy.label">Powered by</i18n-message>
+
+                    <a href="https://www.k15t.com/go/scroll-viewport-cloud-help-center" target="_blank" rel="noopener">
+                        <strong>Scroll Viewport</strong>
+                    </a>
+                    &amp;
+                    <a href="https://jekyllrb.com" target="_blank" rel="noopener">
+                        <strong>Jekyll</strong>
+                    </a>
+                    &amp;
+                    <a href="https://will.bowxeon.com" target="_blank" rel="noopener">
+                        <strong>Will</strong>
+                    </a>
+
+                    <span id="vp-js-cookies__reset-link"></span>
+                </span>
+                <a href="https://beian.miit.gov.cn" target="_blank" rel="noopener">{{ site.beian }}</a>
+            </span>
         </div>
     </div>
-</div>
-<!-- /Footer Copyright Section -->
-<!--Scroll To Top-->
-<a href="#" class="hc_scrollup"><i class="fa fa-chevron-up"></i></a>
-<!--/Scroll To Top-->
-<script type='text/javascript' src='{{ site.js_path }}/comment-reply.min.js?ver=5.3.4'></script>
-<script type='text/javascript' src='{{ site.js_path }}/wp-embed.min.js?ver=5.3.4'></script>
+</footer>

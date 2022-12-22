@@ -1,0 +1,98 @@
+<main class="flex-grow">
+    <div class="portal">
+        <div class="grid mx-auto mb-12 lg:mb-20 max-w-full hc-header-background-color hc-portal-background-image">
+            <div class="grid mx-auto px-2 md:px-4 max-w-grid w-full portal__header">
+                <div class="portal__header__content">
+                    <div class="text-center portal__header__content__intro">
+                        <h1 class="portal__header__content__intro--heading hc-portal-font-color">{{page.title}}</h1>
+                        <p class="portal__header__content__intro--intro hc-portal-font-color"></p>
+                        <div class="vp-search-bar-container vp-search-bar-container--centered">
+                            <form role="search" id="search-form" method="GET" action="/search.html"
+                                vp-id="vp-search-form" class="flex w-full">
+                                <input type="submit" hidden="" aria-hidden="true">
+                                <input type="hidden" name="start" value="0">
+                                <input type="hidden" name="max" value="10">
+                                <div data-vp-component="search-bar" data-vp-variant="large"
+                                    class="vp-search-bar has-suggestions">
+                                    <div class="vp-search-bar__input-container">
+                                        <div data-vp-component="search-input" class="vp-search-input">
+                                            <div class="vp-search-input__icon" aria-hidden="true">
+                                                <span class="vp-icon material-icons mdi-magnify" data-size="md"
+                                                    aria-hidden="true"></span>
+                                            </div>
+                                            <input form="search-form" name="q" role="combobox"
+                                                aria-controls="suggestion-pzolw5g4oh" aria-expanded="false"
+                                                aria-autocomplete="list" required="" type="search" autocomplete="off"
+                                                class="vp-search-input__input" placeholder="想了解什么？随便搜搜看？">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                            <script data-vp-id="search-bar-config" type="application/json">
+                                {
+                                    "hasContentSourceFilter": false,
+                                    "hasQuickSearch": true,
+                                    "variant": "large"
+                                }
+                            </script>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="grid mx-auto px-2 md:px-4 max-w-grid w-full portal__content">
+            <div class="flex flex-flow auto-rows-fr flex-wrap">
+                <div class="flex">
+                    <article role="article">
+                        <header>
+                            <i18n-message i18nkey="breadcrumb.label" attribute="aria-label">
+                                <nav aria-label="Breadcrumb" role="navigation">
+                                    <div class="breadcrumbs-wrapper">
+                                    </div>
+                                </nav>
+                            </i18n-message>
+                            <div style="margin: 0px 0 16px; width: 100%; display: inline-flex;">
+                                <p id="random-post-date" style="color: var(--vp-footer-text-color) !important; padding: 5px;"></p>
+                                <div id="random-post-tags" style="display: inline-block; margin: 0 15px 5px; padding: 5px;"></div>
+                            </div>
+                            <h1 class="vp-article__heading article__heading" role="heading">
+                                <a id="random-post-title" class=""></a>
+                            </h1>
+                        </header>
+                        <section class="page" id="content" role="main">
+                            <div id="main-content" class="wiki-content article__content js-tocBot-content"></div>
+                        </section>
+                    </article>
+                    <div class="vp-article__aside-right flex-none w-1/6 article__toc hidden xl:block no-print">
+                        <div class="vp-scrollable-container vp-scrollable-container--hidden-scrollbars">
+                            <div class="js-tocBot">
+                                <ol class="toc-list"></ol>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script type="text/javascript">
+  window.onload = function () {
+    var request = new XMLHttpRequest();
+    request.open('GET', '/search.json', false);
+    request.send();
+    var rspData = JSON.parse(request.responseText);
+    var randomNum = Math.random() * rspData.length | 0;
+    var randomPost = rspData[randomNum];
+    var randomPostDate = randomPost.url.split("/").slice(2,5).join("-");
+    var randomPostTags = ['<em style="color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);">🏷️</em>'];
+    var randomPostTagsList = randomPost.tag.split(",");
+    for ( var i=0; i<randomPostTagsList.length; i++ ) {
+        randomPostTags.push('<a class="font-bold mb-4" href="/search?q=' + randomPostTagsList[i] + '" rel="tag" style="color: #242526; padding: 5px 0px 5px 5px; text-decoration: none;">' + randomPostTagsList[i] + '</a>&nbsp;');
+    }
+    document.getElementById("random-post-date").textContent = randomPostDate;
+    document.getElementById("random-post-tags").innerHTML = randomPostTags.join("");
+    document.getElementById("random-post-title").textContent = randomPost.title;
+    document.getElementById("random-post-title").href = randomPost.url;
+    document.getElementById("main-content").textContent = randomPost.content.substring(0, 200) + " ......";
+  }
+</script>

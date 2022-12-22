@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% include head.html %}
+
+<body class="home blog">
+  {% include nav.html %}
+  <main class="flex-grow">
+    <div class="vp-article vp-container vp-container--with-content-padding article full vp-article--wide">
+      <div class="flex">
+        <div id="vp-js-desktop__navigation"
+          class="vp-article__aside-left flex-none w-1/6 article__navigation hidden lg:block no-print">
+        </div>
+        <div id="article-content" class="vp-article__content-panel flex-auto mx-auto px-0 lg:mb-20 max-w-full">
+          <article role="article">
+            <header>
+              <i18n-message i18nkey="breadcrumb.label" attribute="aria-label">
+                <nav aria-label="Breadcrumb" role="navigation">
+                  <div class="breadcrumbs-wrapper">
+                    <ol class="breadcrumbs breadcrumbs--fit-content">
+                      <li class=""><a href="/{{ page.categories[0] }}" rel="prev" target="_self">
+                        {% if page.categories[0] == "sqa" %}
+                        软件质量保障
+                        {% elsif page.categories[0] == "devops" %}
+                        DevOps
+                        {% elsif page.categories[0] == "workspace" %}
+                        工作随笔
+                        {% elsif page.categories[0] == "health" %}
+                        健康菜单
+                        {% endif %}
+                      </a></li>
+                    </ol>
+                    <div class="breadcrumbs-wrapper__scroll-mask"></div>
+                  </div>
+                </nav>
+              </i18n-message>
+              {% assign categoryPosts = site.posts | where_exp: "item", "item.categories[0] == page.categories[0]" %}
+              <h1 class="vp-article__heading article__heading" role="heading"><span class="">一共有 {{ categoryPosts.size }} 篇关于 {{ page.title }} 的文章</span></h1>
+            </header>
+            <div class="vp-search-page">
+              <div data-vp-id="search-page-main" class="vp-search-page__main">
+                <div class="vp-search-page__main-inner">
+                  <ul id="results-ul" aria-label="Search results" data-vp-id="search-page-results" aria-live="polite" aria-atomic="false" class="contents m-0 p-0 list-none">
+                    {% for item in categoryPosts %}
+                    <li aria-label="Result">
+                      <div class="vp-search-result">
+                        <div class="vp-search-result__description">
+                          <em style="color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);">🏷️ </em>
+                          {{ item.tags | join: ", "}}
+                        </div>
+                        <h3 class="vp-search-result__title">
+                          <a rel="noopener" href="{{ item.url }}">{{ item.title }}</a>
+                        </h3>
+                        <p class="vp-search-result__description">{{ item.content | strip_html | truncate: 100 }}</p>
+                      </div>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+        <div class="vp-article__aside-right flex-none w-1/6 article__toc hidden xl:block no-print">
+        </div>
+      </div>
+    </div>
+  </main>
+  {% include footer.html %}
+  {% include mobile.html %}
+  <script src="{{site.path.js}}/viewport.js"></script>
+  <script type="text/javascript">
+    window.onload = function () {
+      var ptreeList = document.getElementById("vp-js-desktop__navigation").getElementsByTagName("li")
+      for ( var i=0;i<ptreeList.length;i++ ) {
+        if ( ptreeList[i].getAttribute("data-id") == "{{ page.url }}" ) {
+          ptreeList[i].classList.add("vp-tree-item--active");
+        }
+      }
+    }
+  </script>
+</body>
+
+</html>

@@ -1,52 +1,82 @@
-<!--Logo & Menu Section-->
-<nav class="navbar navbar-default">
-    <div class="container">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-            <h1>
-                <a class="navbar-brand" href="#" title="撩保星球">
-
-                    <img class="img-responsive"
-                         src="{{ site.img_path }}/logo.svg"
-                         style="height:50px; width: auto;" alt="撩保星球"/>
-                </a></h1>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-                    data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">切换导航</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
+<header class="header hc-header-background-color">
+    <nav class="header__navigation relative">
+        <div id="vp-js-mobile__header-bar" class="block lg:hidden relative z-20">
+            <div
+                class="vp-title-bar flex-row justify-between items-center gap-4 vp-title-bar--color-header shadow hide-for-large vp-mobile-header">
+                <div class="header__navigation--logo"><a href="/" rel="noopener" aria-hidden="true" tabindex="-1"
+                        target="_self"><img
+                            src="{{ site.path.img }}/logo_white.svg"
+                            alt="{{ site.title }}" aria-label="mobile.navigation.titleBar.goBack.label" role="presentation"></a>
+                </div>
+                <div class="transition-opacity flex"><button type="button"
+                        class="vp-button vp-button--variant-default header__navigation--button pr-4 hc-header-font-color"
+                        aria-label="Show search form"><span class="vp-icon material-icons mdi-magnify" data-size="md"
+                            aria-hidden="true"></span></button></div>
+            </div>
         </div>
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul id="menu-blog" class="nav navbar-nav navbar-right">
-                {% for item in site.navs %}
-                {% if item.has_sub_nav == true %}
-                <li class="menu-item menu-item-type-custom menu-item-object-custom dropdown">
-                    <a>{{ item.name }}<b class="caret"></b></a>
-                    <ul class="dropdown-menu default">
-                        {% for sub_item in item.sub_navs %}
-                        <li class="menu-item page_item dropdown dropdown-submenu">
-                            <a href="{{ sub_item.url}}" target="{{ sub_item.target }}">{{ sub_item.name }}</a>
+
+        <div class="hc-header-background-color hidden lg:block relative z-10" id="site-navigation">
+            <div class="top-bar header__navigation--large hc-header-background-color hc-header-font-color">
+                <div class="top-bar-left" style="padding: 0;">
+                    <ul
+                        class="flex flex-wrap flex-row items-center relative m-0 mr-4 p-0 list-none hc-header-background-color">
+                        <li class="font-bold leading-none mr-4 align-self-center header__navigation--logo">
+                            <vp-localized-link>
+                                <a href="/" target="_self">
+                                    <img src="{{ site.path.img }}/logo_white.svg"
+                                        aria-label="Back to Portal" alt="{{ site.title }}" title="{{ site.title }}">
+                                </a>
+                            </vp-localized-link>
                         </li>
-                        {% endfor %}
                     </ul>
-                </li>
-                {% else %}
-                {% if page.title == item.page_title %}
-                <li class="menu-item menu-item-type-custom menu-item-object-custom current-menu-item active">
-                    <a target="{{ item.target }}">{{ item.name}}</a>
-                </li>
-                {% else %}
-                <li class="menu-item menu-item-type-custom menu-item-object-custom">
-                    <a href="{{ item.url }}" target="{{ item.target }}">{{ item.name }}</a>
-                </li>
-                {% endif %}
-                {% endif %}
-                {% endfor %}
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
-<!--/Logo & Menu Section-->
+                </div>
+                <div class="top-bar-right no-print" style="padding: 0;">
+                    <div class="header__navigation--large__menu hc-header-background-color">
+                        <ul class="flex flex-row m-0 p-0 list-none render-links">
+                            {% for navobj in site.nav %}
+                            {% if page.categories[0] == navobj.id %}
+                            <li class="order-6 lg:order-2 renderLinks--link render-links--link renderLinks--link--border render-links--link--border" style="border-bottom: 2px inset white; border-top: 2px inset transparent;">
+                            {% else %}
+                            <li class="order-6 lg:order-2 renderLinks--link render-links--link renderLinks--link--border render-links--link--border">
+                            {% endif %}
+                                <a href="{{navobj.url}}" target="{{navobj.target}}" aria-label="{{navobj.title}}" class="block px-4 py-3 hc-header-font-color" rel="noopener" style="text-decoration: none">
+                                    {{navobj.title}}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        <ul class="my-auto list-none ml-4">
+                            <li class="order-1 lg:order-6">
+                                <form role="search" id="search-form-top-right" method="GET" action="/search.html"
+                                    vp-id="vp-search-form" class="flex w-full">
+                                    <input type="hidden" name="start" value="0">
+                                    <input type="hidden" name="max" value="10">
+                                    <div data-vp-component="search-bar" data-vp-variant="" class="vp-search-bar">
+                                        <div class="vp-search-bar__input-container">
+                                            <div data-vp-component="search-input" class="vp-search-input">
+                                                <div class="vp-search-input__icon" aria-hidden="true">
+                                                    <span class="vp-icon material-icons mdi-magnify" data-size="md" aria-hidden="true"></span>
+                                                </div>
+                                                <input name="q" required="" type="search" autocomplete="off" class="vp-search-input__input">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div></div>
+                                <script data-vp-id="search-bar-config" type="application/json">
+                                    {
+                                        "hasContentSourceFilter": false,
+                                        "hasQuickSearch": false,
+                                        "variant": ""
+                                    }
+                                </script>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </nav>
+</header>
+
