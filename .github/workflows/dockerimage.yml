@@ -25,6 +25,7 @@ jobs:
         echo -e "\n"
         echo -e "构建镜像 ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}"
         echo -e "\n"
+        cd docs
         docker build . --file Dockerfile --tag ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}
         echo -e "\n"
         echo -e "推送镜像 ${IMG_REPO}/${IMG_NAME}:${IMG_TAG}"
