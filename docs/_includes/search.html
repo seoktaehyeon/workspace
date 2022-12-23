@@ -81,10 +81,12 @@
             document.getElementById("results-ul").insertBefore(resultItem, document.getElementById("results-ul").lastChild);
           }
         })
-        var resultCountItem = document.createElement("div");
-        resultCountItem.classList.value = "vp-search-page__results-header";
-        resultCountItem.innerHTML = "<p role=\"status\" class=\"m-0 search-results__results__label flex-shrink-0\">找到 " + resultCount +" 篇相关内容</p>";
-        resultRoot.insertBefore(resultCountItem, resultRoot.firstChild);
+        if ( resultCount > 0 ) {
+          var resultCountItem = document.createElement("div");
+          resultCountItem.classList.value = "vp-search-page__results-header";
+          resultCountItem.innerHTML = "<p role=\"status\" class=\"m-0 search-results__results__label flex-shrink-0\">找到 " + resultCount +" 篇相关内容</p>";
+          resultRoot.insertBefore(resultCountItem, resultRoot.firstChild);
+        }
       }
     }
   </script>
