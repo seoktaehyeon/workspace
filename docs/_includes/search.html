@@ -61,27 +61,31 @@
         request.send();
         var rspData = JSON.parse(request.responseText);
         rspData.forEach( obj => {
-          if ( JSON.stringify(obj).includes(searchStr) ) {
+          if ( JSON.stringify(obj).toLowerCase().includes(searchStr.toLowerCase()) ) {
             resultCount++;
             if ( resultCount == 1 ) {
               document.getElementById("search-no-result").remove();
             }
             var resultItem = document.createElement("li");
             resultItem.setAttribute("aria-label", "Result " + resultCount);
-            var contentSlice = obj.content.split(searchStr).slice(0,2);
-            var contentSliceList = [contentSlice[0].substr(-20, 20)];
+            var contentSlice = obj.content.toLowerCase().split(searchStr.toLowerCase()).slice(0,2);
+            var contentSliceList = [contentSlice[0].substr(-20, 50)];
             if ( contentSlice[1] ) {
-              contentSliceList.push(contentSlice[1].substr(0, 20));
+              contentSliceList.push(contentSlice[1].substr(0, 50));
             }
             resultItem.innerHTML = "<div class=\"vp-search-result\">\
-              <div class=\"vp-search-result__description\"><em style=\"color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);\">🏷️ </em>" + obj.tag.split(searchStr).join("<em>" + searchStr + "</em>") + "</div>\
-              <h3 class=\"vp-search-result__title\"><a rel=\"noopener\" href=\"" + obj.url + "\">" + obj.title.split(searchStr).join("<em>" + searchStr + "</em>") + "</a></h3>\
+              <div class=\"vp-search-result__description\"><em style=\"color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);\">🏷️ </em>" + obj.tag.toLowerCase().split(searchStr.toLowerCase()).join("<em>" + searchStr + "</em>") + "</div>\
+              <h3 class=\"vp-search-result__title\"><a rel=\"noopener\" href=\"" + obj.url + "\">" + obj.title.toLowerCase().split(searchStr.toLowerCase()).join("<em>" + searchStr + "</em>") + "</a></h3>\
               <p class=\"vp-search-result__description\">" + contentSliceList.join("<em>" + searchStr + "</em>") + "</p>\
             </div>";
             document.getElementById("results-ul").insertBefore(resultItem, document.getElementById("results-ul").lastChild);
           }
         })
       }
+      var resultCountItem = document.createElement("div");
+      resultCountItem.classList.value = "vp-search-page__results-header";
+      resultCountItem.innerHTML = "<p role=\"status\" class=\"m-0 search-results__results__label flex-shrink-0\">找到 " + resultCount +" 篇相关内容</p>";
+      resultRoot.insertBefore(resultCountItem, resultRoot.firstChild);
     }
   </script>
 </main>
