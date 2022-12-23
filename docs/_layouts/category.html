@@ -18,15 +18,8 @@
                   <div class="breadcrumbs-wrapper">
                     <ol class="breadcrumbs breadcrumbs--fit-content">
                       <li class=""><a href="/{{ page.categories[0] }}" rel="prev" target="_self">
-                        {% if page.categories[0] == "sqa" %}
-                        软件质量保障
-                        {% elsif page.categories[0] == "devops" %}
-                        DevOps
-                        {% elsif page.categories[0] == "workspace" %}
-                        工作随笔
-                        {% elsif page.categories[0] == "health" %}
-                        健康菜单
-                        {% endif %}
+                        {% assign currentNav = site.nav | where_exp: "item", "item.id == page.categories[0] " %}
+                        {{ currentNav.title }}
                       </a></li>
                     </ol>
                     <div class="breadcrumbs-wrapper__scroll-mask"></div>

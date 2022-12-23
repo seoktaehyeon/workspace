@@ -57,9 +57,8 @@ exclude:
   - _includes     # EXCLUDE_IN_GITEE_PAGES
   - index.md      # EXCLUDE_IN_GITEE_PAGES
   - pagetree.json # EXCLUDE_IN_GITEE_PAGES
-  - search.md     # EXCLUDE_IN_GITEE_PAGES
-  - search.json   # EXCLUDE_IN_GITEE_PAGES
   - 404.md        # EXCLUDE_IN_GITEE_PAGES
+  - search/       # EXCLUDE_IN_GITEE_PAGES
   - sqa/          # EXCLUDE_IN_GITEE_PAGES
   - devops/       # EXCLUDE_IN_GITEE_PAGES
   - workspace/    # EXCLUDE_IN_GITEE_PAGES

@@ -1,5 +1,5 @@
 <main class="flex-grow">
-  <form role="search" id="search-form" method="GET" action="/search.html" vp-id="vp-search-form" class="">
+  <form role="search" id="search-form" method="GET" action="/search" vp-id="vp-search-form" class="">
     <input type="submit" hidden="" aria-hidden="true">
     <input type="hidden" name="start" value="0">
     <input type="hidden" name="max" value="10">
@@ -57,7 +57,7 @@
         resultRoot.insertBefore(resultList, resultRoot.lastChild);
         var resultCount = 0;
         var request = new XMLHttpRequest();
-        request.open('GET', '/search.json', false);
+        request.open('GET', '/search/posts.json', false);
         request.send();
         var rspData = JSON.parse(request.responseText);
         rspData.forEach( obj => {

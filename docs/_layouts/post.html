@@ -17,15 +17,8 @@
                   <div class="breadcrumbs-wrapper">
                     <ol class="breadcrumbs breadcrumbs--fit-content">
                       <li class=""><a href="/{{ page.categories[0] }}" rel="prev" target="_self">
-                        {% if page.categories[0] == "sqa" %}
-                        软件质量保障
-                        {% elsif page.categories[0] == "devops" %}
-                        DevOps
-                        {% elsif page.categories[0] == "workspace" %}
-                        工作随笔
-                        {% elsif page.categories[0] == "health" %}
-                        健康菜单
-                        {% endif %}
+                        {% assign currentNav = site.nav | where_exp: "item", "item.id == page.categories[0] " %}
+                        {{ currentNav.title }}
                       </a></li>
                       {% if page.name != "index.md" %}
                       <li class="breadcrumbs--active">
@@ -41,13 +34,12 @@
                  <a href="/author/{{ page.author | downcase }}" style="padding-right: 5px;">
                    <img alt="" src="{{ site.path.img }}/author/{{ page.author | downcase }}.svg" target="_blank" srcset="{{ site.path.img }}/author/{{ page.author | downcase }}.svg 2x" height="40" width="40">
                  </a>
-                 <p style="color: var(--vp-footer-text-color) !important; padding: 5px;">作者</p>
                  <a class="font-bold mb-4" href="/author/{{ page.author | downcase }}" target="_blank" style="color: #242526; padding: 5px; text-decoration: none;">{{ page.author }}</a>
                  <p style="color: var(--vp-footer-text-color) !important; padding: 5px;">{{ page.date | date: '%Y-%m-%d' }}</p>
                  <div style="display: inline-block; margin: 0 15px 5px; padding: 5px;">
                    <em style="color: var(--vp-footer-text-color) !important; padding: 5px; filter: grayscale(1);">🏷️</em>
                    {% for tag in page.tags %}
-                   <a class="font-bold mb-4" href="/search.html?q={{ tag }}" rel="tag" style="color: #242526; padding: 5px 0px 5px 5px; text-decoration: none;">{{ tag }}</a>&nbsp;
+                   <a class="font-bold mb-4" href="/search?q={{ tag }}" rel="tag" style="color: #242526; padding: 5px 0px 5px 5px; text-decoration: none;">{{ tag }}</a>&nbsp;
                    {% endfor %}
                  </div>
               </div>
