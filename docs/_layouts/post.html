@@ -17,8 +17,12 @@
                   <div class="breadcrumbs-wrapper">
                     <ol class="breadcrumbs breadcrumbs--fit-content">
                       <li class=""><a href="/{{ page.categories[0] }}" rel="prev" target="_self">
-                        {% assign currentNav = site.nav | where_exp: "item", "item.id == page.categories[0] " %}
-                        {{ currentNav.title }}
+                      {% for navItem in site.nav %}
+                        {% if navItem.id == page.categories[0] %}
+                          {{ navItem.title }}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
                       </a></li>
                       {% if page.name != "index.md" %}
                       <li class="breadcrumbs--active">
