@@ -1,12 +1,12 @@
 {
     "pagetree": [
         {
-            "id": "day",
+            "id": "daily",
             "title": "一日的健康菜单",
             "link": "/health?p=day",
             "children": []
         }, {
-            "id": "week",
+            "id": "weekly",
             "title": "一周的健康菜单",
             "link": "/health?p=week",
             "children": []

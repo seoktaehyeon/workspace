@@ -57,9 +57,9 @@
   {% include mobile.html %}
   <script src="{{site.path.js}}/viewport.js"></script>
   <script type="text/javascript">
-    function insertH (rootNode, hKey, hVal) {
+    function insertH (rootNode, hKey, hP, hVal) {
       var hTitle = document.createElement(hKey);
-      hTitle.id = hVal;
+      hTitle.id = hP + hVal;
       hTitle.textContent = hVal;
       rootNode.insertBefore(hTitle, rootNode.lastChild);
     };
@@ -117,6 +117,14 @@
       rootNode.insertBefore(shoppingTable, rootNode.lastChild);
 
     };
+    function activeLeftNav (navKey) {
+      var ptreeList = document.getElementById("vp-js-desktop__navigation").getElementsByTagName("li")
+      for ( var i=0;i<ptreeList.length;i++ ) {
+        if ( ptreeList[i].getAttribute("data-id") == navKey ) {
+          ptreeList[i].classList.add("vp-tree-item--active");
+        }
+      }
+    };
     window.onload = function () {
       var healthKV = {};
       var healthParams = window.location.search.split("?")[1].split("&");
@@ -134,31 +142,41 @@
       }
       document.getElementById("health-menu-title").textContent = rspData.title;
       var contentRoot = document.getElementById("main-content");
+      var tableOfContentStr = "";
       if ( rspData.title == "一日菜单" ) {
         rspData.stages.forEach ( obj => {
+          tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.name + "\" class=\"article__toc__link node-name--H2\">" + obj.name + "</a></li>";
           insertH(contentRoot, "h2", obj.name);
           insertMenuItem(contentRoot, obj.menu);
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        activeLeftNav("daily");
       } else if ( rspData.title == "一周菜单" ) {
         rspData.days.forEach ( obj => {
+          tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.day + "\" class=\"article__toc__link node-name--H2\">" + obj.day + "</a></li>";
           insertH(contentRoot, "h2", obj.day);
           obj.stages.forEach ( stageObj => {
-            insertH(contentRoot, "h3", stageObj.name);
+            tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.day + stageObj.name + "\" class=\"article__toc__link node-name--H3\">" + stageObj.name + "</a></li>";
+            insertH(contentRoot, "h3", obj.day, stageObj.name);
             insertMenuItem(contentRoot, stageObj.menu);
           });
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        activeLeftNav("weekly");
       } else if ( rspData.title == "一个月菜单" ) {
         rspData.days.forEach ( obj => {
+          tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第" + obj.day + "天\" class=\"article__toc__link node-name--H2\">第 " + obj.day + " 天</a></li>";
           insertH(contentRoot, "h2", "第 " + obj.day + " 天");
           obj.stages.forEach ( stageObj => {
-            insertH(contentRoot, "h3", stageObj.name);
+            tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第" + obj.day + "天" + stageObj.name + "\" class=\"article__toc__link node-name--H3\">" + stageObj.name+ "</a></li>";
+            insertH(contentRoot, "h3", obj.day, stageObj.name);
             insertMenuItem(contentRoot, stageObj.menu);
           });
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        activeLeftNav("monthly");
       };
+      document.getElementsByClassName("js-tocBot")[0].innerHTML = "<ol class=\"toc-list\"" + tableOfContentStr + "</ol>";
     };
   </script>
 </body>

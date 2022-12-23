@@ -99,20 +99,8 @@ nav:
     target: ""
   - title: "健康菜单"
     id: health
-    url: "/health-menu/day"
-    target: "_blank"
-  # - title: "[日]"
-  #   id: null
-  #   url: "/health-menu/day"
-  #   target: "_blank"
-  # - title: "[周]"
-  #   id: null
-  #   url: "/health-menu/day"
-  #   target: "_blank"
-  # - title: "[月]"
-  #   id: null
-  #   url: "/health-menu/day"
-  #   target: "_blank"
+    url: "/health?p=day"
+    target: ""
 
 my_projects:
   - name: QSphere质量数据平台
