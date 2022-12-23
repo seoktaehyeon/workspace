@@ -150,30 +150,31 @@
           insertMenuItem(contentRoot, obj.menu);
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#采购清单\" class=\"article__toc__link node-name--H2\">采购清单</a></li>";
         activeLeftNav("daily");
       } else if ( rspData.title == "一周菜单" ) {
         rspData.days.forEach ( obj => {
           tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.day + "\" class=\"article__toc__link node-name--H2\">" + obj.day + "</a></li>";
           insertH(contentRoot, "h2", obj.day);
           obj.stages.forEach ( stageObj => {
-            tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.day + stageObj.name + "\" class=\"article__toc__link node-name--H3\">" + stageObj.name + "</a></li>";
             insertH(contentRoot, "h3", obj.day, stageObj.name);
             insertMenuItem(contentRoot, stageObj.menu);
           });
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#采购清单\" class=\"article__toc__link node-name--H2\">采购清单</a></li>";
         activeLeftNav("weekly");
       } else if ( rspData.title == "一个月菜单" ) {
         rspData.days.forEach ( obj => {
           tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第" + obj.day + "天\" class=\"article__toc__link node-name--H2\">第 " + obj.day + " 天</a></li>";
           insertH(contentRoot, "h2", "第 " + obj.day + " 天");
           obj.stages.forEach ( stageObj => {
-            tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第" + obj.day + "天" + stageObj.name + "\" class=\"article__toc__link node-name--H3\">" + stageObj.name+ "</a></li>";
             insertH(contentRoot, "h3", obj.day, stageObj.name);
             insertMenuItem(contentRoot, stageObj.menu);
           });
         });
         insertShoppingItem(contentRoot, rspData.shopping);
+        tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#采购清单\" class=\"article__toc__link node-name--H2\">采购清单</a></li>";
         activeLeftNav("monthly");
       };
       document.getElementsByClassName("js-tocBot")[0].innerHTML = "<ol class=\"toc-list\"" + tableOfContentStr + "</ol>";
