@@ -120,7 +120,7 @@
     window.onload = function () {
       var healthKV = {};
       var healthParams = window.location.search.split("?")[1].split("&");
-      for ( var i=0; i<searchParams.length; i++ ) {
+      for ( var i=0; i<healthParams.length; i++ ) {
         var kvItem = healthParams[i].split("=");
         healthKV[kvItem[0]] = kvItem[1];
       }
