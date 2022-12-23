@@ -132,6 +132,7 @@
       } else {
         return false;
       }
+      document.getElementById("health-menu-title").textContent = rspData.title;
       var contentRoot = document.getElementById("main-content");
       if ( rspData.title == "一日菜单" ) {
         rspData.stages.forEach ( obj => {
