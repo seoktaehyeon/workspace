@@ -157,7 +157,7 @@
           tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#" + obj.day + "\" class=\"article__toc__link node-name--H2\">" + obj.day + "</a></li>";
           insertH(contentRoot, "h2", obj.day);
           obj.stages.forEach ( stageObj => {
-            insertH(contentRoot, "h3", obj.day, stageObj.name);
+            insertH(contentRoot, "h3", stageObj.name);
             insertMenuItem(contentRoot, stageObj.menu);
           });
         });
