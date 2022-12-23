@@ -1,15 +1,18 @@
 <div style="padding-left: 1rem;">
     <ol class="toc-list">
+        <hr>
         <li class="toc-list-item"><span class="article__toc__link node-name--H2">我参与的项目</span></li>
         <ol class="toc-list">
             {% for item in site.my_projects %}
             <li class="toc-list-item"><a class="article__toc__link node-name--H3" target="_blank" href="{{ item.url }}">{{ item.name }}</a></li>
             {% endfor %}
         </ol>
+        <hr>
         <li class="toc-list-item"><span class="article__toc__link node-name--H2">微信公众号</span></li>
         <ol class="toc-list">
             <li class="toc-list-item"><img src="{{ site.path.img }}/wechat_oa.png"></li>
         </ol>
+        <hr>
         <li class="toc-list-item"><span class="article__toc__link node-name--H2">个人微信</span></li>
         <ol class="toc-list">
             <li class="toc-list-item"><img style="max-width: 100%;" src="{{ site.path.img }}/wechat_will.jpg"></li>
