@@ -166,7 +166,7 @@
         activeLeftNav("weekly");
       } else if ( rspData.title == "一个月菜单" ) {
         rspData.days.forEach ( obj => {
-          tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第" + obj.day + "天\" class=\"article__toc__link node-name--H2\">第 " + obj.day + " 天</a></li>";
+          tableOfContentStr += "<li class=\"toc-list-item\"><a href= \"#第 " + obj.day + " 天\" class=\"article__toc__link node-name--H2\">第 " + obj.day + " 天</a></li>";
           insertH(contentRoot, "h2", "第 " + obj.day + " 天");
           obj.stages.forEach ( stageObj => {
             insertH(contentRoot, "h3", stageObj.name);
