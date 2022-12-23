@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+{% include head.html %}
+
+<body class="home blog">
+  {% include nav.html %}
+  <main class="flex-grow">
+    <div class="vp-article vp-container vp-container--with-content-padding article full vp-article--wide">
+      <div class="flex">
+        <div id="vp-js-desktop__navigation" class="vp-article__aside-left flex-none w-1/6 article__navigation hidden lg:block no-print">
+        </div>
+        <div id="article-content" class="vp-article__content-panel flex-auto mx-auto px-0 lg:mb-20 max-w-full">
+          <article role="article">
+            <header>
+              <i18n-message i18nkey="breadcrumb.label" attribute="aria-label">
+                <nav aria-label="Breadcrumb" role="navigation">
+                  <div class="breadcrumbs-wrapper">
+                    <ol class="breadcrumbs breadcrumbs--fit-content">
+                      <li class=""><a href="/{{ page.categories[0] }}" rel="prev" target="_self">
+                      {% for navItem in site.nav %}
+                        {% if navItem.id == page.categories[0] %}
+                          {{ navItem.title }}
+                          {% break %}
+                        {% endif %}
+                      {% endfor %}
+                      </a></li>
+                      {% if page.name != "index.md" %}
+                      <li class="breadcrumbs--active">
+                        <a href="#" target="_self" aria-current="page">{{ page.title }}</a>
+                      </li>
+                      {% endif %}
+                    </ol>
+                    <div class="breadcrumbs-wrapper__scroll-mask"></div>
+                  </div>
+                </nav>
+              </i18n-message>
+              <h1 class="vp-article__heading article__heading" role="heading"><span id="health-menu-title"></span></h1>
+            </header>
+            <section class="page" id="content" role="main">
+              <div id="main-content" class="wiki-content article__content js-tocBot-content"><div></div>
+              </div>
+            </section>
+          </article>
+        </div>
+        <div class="vp-article__aside-right flex-none w-1/6 article__toc hidden xl:block no-print">
+          <div class="vp-scrollable-container vp-scrollable-container--hidden-scrollbars">
+            <div class="js-tocBot">
+              <ol class="toc-list"></ol>
+            </div>
+            {% include extinfo.html %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  {% include footer.html %}
+  {% include mobile.html %}
+  <script src="{{site.path.js}}/viewport.js"></script>
+  <script type="text/javascript">
+    function insertH (rootNode, hKey, hVal) {
+      var hTitle = document.createElement(hKey);
+      hTitle.id = hVal;
+      hTitle.textContent = hVal;
+      rootNode.insertBefore(hTitle, rootNode.lastChild);
+    };
+    function generateMenuTableStr (menuData) {
+      var tableStr = ""; 
+      menuData.forEach ( obj => {
+        tableStr += "<tr><td>" + obj.名称 + "</td><td>" + obj.数量 + "</td><td>" + obj.克重 + "</td><td>";
+        if ( obj.备注 ) {
+          tableStr += obj.备注 + "</td></tr>";
+        } else {
+          tableStr += "</td></tr>";
+        }
+      });
+      return "\
+        <thead>\
+          <tr role=\"row\" class=\"tablesorter-headerRow\">\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">名称</div></th>\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">数量</div></th>\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">克重</div></th>\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">备注</div></th>\
+          </tr>\
+        </thead>\
+        <tbody aria-live=\"polite\" aria-relevant=\"all\">" + tableStr + "</tbody>";
+    };
+    function insertMenuItem (rootNode, menuData) {
+      var stageTable = document.createElement("table");
+      stageTable.classList.value = "tablesorter tablesorter-default tablesorter4becd14c7daaa";
+      stageTable.role = "grid";
+      stageTable.innerHTML = generateMenuTableStr(menuData);
+      rootNode.insertBefore(stageTable, rootNode.lastChild);
+    };
+    function generateShoppingTableStr (shoppingData) {
+      var tableStr = "";
+      shoppingData.forEach ( obj => {
+        tableStr += "<tr><td>" + obj.名称 + "</td><td>" + obj.采购量 + "</td></tr>";
+      });
+      return "\
+        <thead>\
+          <tr role=\"row\" class=\"tablesorter-headerRow\">\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">名称</div></th>\
+            <th tabindex=\"0\" role=\"columnheader\" aria-disabled=\"false\"><div class=\"tablesorter-header-inner\">采购量</div></th>\
+          </tr>\
+        </thead>\
+        <tbody aria-live=\"polite\" aria-relevant=\"all\">" + tableStr + "</tbody>";
+    };
+    function insertShoppingItem (rootNode, shoppingData) {
+      var shoppingTitle = document.createElement("h2");
+      shoppingTitle.id = "采购清单";
+      shoppingTitle.textContent = "采购清单";
+      contentRoot.insertBefore(shoppingTitle, contentRoot.lastChild);
+      var shoppingTable = document.createElement("table");
+      shoppingTable.classList.value = "tablesorter tablesorter-default tablesorter4becd14c7daaa";
+      shoppingTable.role = "grid";
+      shoppingTable.innerHTML = generateShoppingTableStr(shoppingData);
+      rootNode.insertBefore(shoppingTable, rootNode.lastChild);
+
+    };
+    window.onload = function () {
+      var healthKV = {};
+      var healthParams = window.location.search.split("?")[1].split("&");
+      for ( var i=0; i<searchParams.length; i++ ) {
+        var kvItem = healthParams[i].split("=");
+        healthKV[kvItem[0]] = kvItem[1];
+      }
+      if ( healthKV.p ) {
+        var request = new XMLHttpRequest();
+        request.open('GET', '/api/health-menu?p=' + healthKV.p, false);
+        request.send();
+        var rspData = JSON.parse(request.responseText);
+      } else {
+        return false;
+      }
+      var contentRoot = document.getElementById("main-content");
+      if ( rspData.title == "一日菜单" ) {
+        rspData.stages.forEach ( obj => {
+          insertH(contentRoot, "h2", obj.name);
+          insertMenuItem(contentRoot, obj.menu);
+        });
+        insertShoppingItem(contentRoot, rspData.shopping);
+      } else if ( rspData.title == "一周菜单" ) {
+        rspData.days.forEach ( obj => {
+          insertH(contentRoot, "h2", obj.day);
+          obj.stages.forEach ( stageObj => {
+            insertH(contentRoot, "h3", stageObj.name);
+            insertMenuItem(contentRoot, stageObj.menu);
+          });
+        });
+        insertShoppingItem(contentRoot, rspData.shopping);
+      } else if ( rspData.title == "一个月菜单" ) {
+        rspData.days.forEach ( obj => {
+          insertH(contentRoot, "h2", "第 " + obj.day + " 天");
+          obj.stages.forEach ( stageObj => {
+            insertH(contentRoot, "h3", stageObj.name);
+            insertMenuItem(contentRoot, stageObj.menu);
+          });
+        });
+        insertShoppingItem(contentRoot, rspData.shopping);
+      };
+    };
+  </script>
+</body>
+
+</html>
