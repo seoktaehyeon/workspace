@@ -57,9 +57,9 @@
   {% include mobile.html %}
   <script src="{{site.path.js}}/viewport.js"></script>
   <script type="text/javascript">
-    function insertH (rootNode, hKey, hP, hVal) {
+    function insertH (rootNode, hKey, hVal) {
       var hTitle = document.createElement(hKey);
-      hTitle.id = hP + hVal;
+      hTitle.id = hVal;
       hTitle.textContent = hVal;
       rootNode.insertBefore(hTitle, rootNode.lastChild);
     };
