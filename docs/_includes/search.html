@@ -61,7 +61,15 @@
         request.send();
         var rspData = JSON.parse(request.responseText);
         rspData.forEach( obj => {
-          if ( JSON.stringify(obj).toLowerCase().includes(searchStr.toLowerCase()) ) {
+          var searchStrKeywordList = searchStr.split("+");
+          var searchStrBingo = true;
+          for ( var i=0; i<searchStrKeywordList.length; i++ ) {
+              var currentKeyword = searchStrKeywordList[i].toLowerCase();
+              if ( ! JSON.stringify(obj).toLowerCase().includes(currentKeyword) ) {
+                  searchStrBingo = false;
+              }
+          }
+          if ( searchStrBingo ) {
             resultCount++;
             if ( resultCount == 1 ) {
               document.getElementById("search-no-result").remove();
