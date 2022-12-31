@@ -1,7 +1,26 @@
-{% assign allPosts = site.posts | where_exp: "item", "item.categories contains page.categories[0]" %}
+{% assign allPosts = site.posts | where_exp: "item", "item.categories[0] == page.categories[0]" %}
+{% assign lastPost = allPosts.size | minus: 1 %}
 {% if allPosts.size == 0 %}
+{% assign allNavs = site.nav %}
+{% assign lastNav = allNavs.size | minus: 1 %}
+{% assign lastNav2 = allNavs.size | minus: 2 %}
 {
-    "pagetree": []
+    "pagetree": [
+        {% for i in (0..lastNav2) %}
+        {
+            "id": "{{ allNavs[i].url }}",
+            "title": "{{ allNavs[i].title }}",
+            "link": "{{ allNavs[i].url }}",
+            "children": []
+        },
+        {% endfor %}
+        {
+            "id": "{{ allNavs[lastNav].url }}",
+            "title": "{{ allNavs[lastNav].title }}",
+            "link": "{{ allNavs[lastNav].url }}",
+            "children": []
+        }
+    ]
 }
 {% elsif allPosts.size == 1 %}
 {
@@ -15,7 +34,6 @@
     ]
 }
 {% else %}
-{% assign lastPost = allPosts.size | minus: 1 %}
 {% assign lastPost2 = allPosts.size | minus: 2 %}
 {
     "pagetree": [
