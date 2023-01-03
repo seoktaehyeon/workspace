@@ -79,8 +79,8 @@
                                     {% endfor %}
                                 </div>
                             </div>
-                            <h1 class="vp-article__heading article__heading" role="heading"><span class="">{{
-                                    latestPost.title }}</span>
+                            <h1 class="vp-article__heading article__heading" role="heading">
+                                <span class=""><a href="{{ latestPost.url }}">{{ latestPost.title }}</a></span>
                             </h1>
                         </header>
                         <section class="page" id="content" role="main">
